@@ -212,7 +212,7 @@
             onclick="switchTab('asia_200')"
             class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-400 hover:text-white text-nowrap"
           >
-            <span>1 แสงมืด บ้าน200+</span>
+            <span>1 แสงมืด วันเยอะ</span>
           </button>
           <button
             id="btn-asia-dong"
@@ -227,7 +227,7 @@
             onclick="switchTab('asia_dong1112')"
             class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-400 hover:text-white text-nowrap"
           >
-            <span>1 แสงมืด ดองสกอ11+12ปี</span>
+            <span>1 แสงมืด ดองสกอ 11+12 ปี</span>
           </button>
 
           <button
@@ -235,7 +235,7 @@
             onclick="switchTab('asia_dong_notset')"
             class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-400 hover:text-white text-nowrap"
           >
-            <span>1 แสงมืด ดองสกอ12ปี ยังไม่ตั้ง</span>
+            <span>1 แสงมืด ดองสกอ 12 ปี</span>
           </button>
 
           <!-- 2 แสงมืด -->
@@ -254,6 +254,19 @@
             class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-400 hover:text-white text-nowrap"
           >
             <span>2 แสงมืด ดองสกอ</span>
+          </button>
+
+          <!-- ฟินิกลม ดองสกอ -->
+          <button
+            id="btn-teshar-scroll"
+            onclick="switchTab('teshar_scroll')"
+            class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-400 hover:text-white text-nowrap"
+          >
+            <div
+              id="tab-teshar-icon-container"
+              class="w-6 h-6 rounded overflow-hidden flex items-center justify-center"
+            ></div>
+            <span>ฟินิกลม ดองสกอ</span>
           </button>
         </div>
       </div>
@@ -416,6 +429,7 @@
       let sheetDong1112Loaded = false;
       let sheet2LDLoaded = false;
       let sheet2LDDongLoaded = false;
+      let sheetTesharLoaded = true; // โหลดข้อมูลในสคริปต์แบบ Static
 
       const TARGET_COLUMNS = [
         "date",
@@ -434,6 +448,56 @@
       let dbAsiaDong1112 = [];
       let dbAsia2LD = [];
       let dbAsia2LDDong = [];
+
+      // ข้อมูลแท็บ ฟินิกลม ดองสกอ 5 รายการตามระบุ
+      let dbTesharScroll = [
+        {
+          name: "ฟินิกลม",
+          price: "20",
+          hive: "ฟินิกลมไม่ดอง",
+          scroll11: "-",
+          scroll12: "-",
+          scrollLD: "-",
+          status: "",
+        },
+        {
+          name: "ฟินิกลม",
+          price: "70",
+          hive: "ดอง 11 ปี 160 ใบ",
+          scroll11: "160",
+          scroll12: "-",
+          scrollLD: "-",
+          status: "",
+        },
+        {
+          name: "ฟินิกลม",
+          price: "140",
+          hive: "ดอง 12 ปี 200 ใบ",
+          scroll11: "-",
+          scroll12: "200",
+          scrollLD: "-",
+          status: "",
+        },
+        {
+          name: "ฟินิกลม",
+          price: "170",
+          hive: "ดองสกอ 260 ใบ (11ปี160ใบ+12ปี100ใบ)",
+          scroll11: "160",
+          scroll12: "100",
+          scrollLD: "-",
+          status: "",
+        },
+        {
+          name: "ฟินิกลม",
+          price: "200",
+          hive: "ดอง 12 ปี 280-300 ใบ ยังไม่ตั้ง",
+          scroll11: "-",
+          scroll12: "280-300",
+          scrollLD: "-",
+          status: "",
+        },
+      ];
+
       let currentTab = "asia_1ld";
       let sortKey = "";
       let sortDirection = "asc";
@@ -509,6 +573,14 @@
             imgEl.className = "w-full h-full object-cover rounded-lg";
             iconContainer.appendChild(imgEl);
           }
+        }
+
+        // ตั้งค่าไอคอนสำหรับแท็บฟินิกลม
+        const tabTesharIcon = document.getElementById(
+          "tab-teshar-icon-container",
+        );
+        if (tabTesharIcon && imgMap["ฟินิกลม"]) {
+          tabTesharIcon.innerHTML = `<img src="${imgMap["ฟินิกลม"]}" class="w-full h-full object-cover rounded">`;
         }
 
         const urlAsia1LD = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:receiveAsia1LD&sheet=${encodeURIComponent(tabAsia1LD)}`;
@@ -589,6 +661,8 @@
           renderAll();
         } else if (currentTab === "asia_2ld_dong" && sheet2LDDongLoaded) {
           renderAll();
+        } else if (currentTab === "teshar_scroll" && sheetTesharLoaded) {
+          renderAll();
         }
       }
 
@@ -623,7 +697,6 @@
         return { outer: str, full: str };
       }
 
-      // ฟังก์ชันสำหรับแปลงสตริงวันที่ให้อยู่ในรูปแบบ Date Object เพื่อนำมาเปรียบเทียบเรียงลำดับ
       function parseToDateObj(val) {
         if (!val) return null;
         let str = String(val).trim();
@@ -903,7 +976,7 @@
 
           if (item["date"]) {
             const dateObj = parseDateFormats(item["date"]);
-            item["raw_date"] = item["date"]; // เก็บค่าดิบของวันที่
+            item["raw_date"] = item["date"];
             item["full_date"] = dateObj.full;
             item["date"] = dateObj.outer;
           } else {
@@ -943,7 +1016,6 @@
                 : b["scroll_sum"] - a["scroll_sum"];
             }
 
-            // การเรียงลำดับตามวันที่จริง (Chronological Date Order)
             if (sortKey === "date" && currentTab !== "asia_dong_notset") {
               const dtA = parseToDateObj(
                 a["full_date"] || a["raw_date"] || a["date"],
@@ -1042,26 +1114,39 @@
         } else if (currentTab === "asia_200") {
           container.innerHTML = `
          
-          <p class="mt-2 text-gray-300">• แสงมืหหหดแรกเกิด เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน มีประกันทุกไอดี</span></p>
-          <p class="mt-2 text-gray-300">• อัปเดตไอดีทุกวัน 09.00-15.00</span></p>
+          <p class="mt-2 text-gray-300">• ไอดีเริ่มต้นบ้าน 100 - 300 วัน+ (เช็ควันไม่ได้) ยังไม่ตั้ง HIVE ตั้งใหม่ได้ ทับไม่ได้ ไม่ดองสกอ <span class="text-cyan-400">(ไม่มีสกินคอลแลบ)</span></span></p>
+          <p class="mt-2 text-gray-300">• เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน บางไอดีอาจไม่มีบัพ 7 วัน</span></p>
         `;
         } else if (currentTab === "asia_dong") {
           container.innerHTML = `
-         
-          <p class="mt-2 text-gray-300">• asia_dong เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน มีประกันทุกไอดี</span></p>
-          <p class="mt-2 text-gray-300">• อัปเดตไอดีทุกวัน 09.00-15.00</span></p>
+          <div class="flex items-center flex-wrap gap-x-4 gap-y-2 mt-2 bg-black/30 p-3 rounded-xl border border-purple-950/40">
+          <div class="flex items-center gap-1.5">${tag12} <span class="text-sm">สกอ 12 ปี 50-140 ใบ</span></div>
+          </div>
+          <p class="mt-2 text-gray-300">• 5*แสงมืดดองสกอ + ฟินิกลม ตั้ง HIVE แล้ว</p>
+          <p class="mt-2 text-gray-300">• ไอดีเริ่มต้น เควสผู้เล่นใหม่ครบ <span class="text-cyan-400">(ไม่มีสกินคอลแลบ)</span></p>
         `;
         } else if (currentTab === "asia_2ld") {
           container.innerHTML = `
          
-          <p class="mt-2 text-gray-300">• asia_2ld เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน มีประกันทุกไอดี</span></p>
-          <p class="mt-2 text-gray-300">• อัปเดตไอดีทุกวัน 09.00-15.00</span></p>
+          <p class="mt-2 text-gray-300">• ไอดีเริ่มต้น เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน มีประกันทุกไอดี <span class="text-cyan-400">(ไม่มีสกินคอลแลบ)</span></span></p>
+          
         `;
         } else if (currentTab === "asia_2ld_dong") {
           container.innerHTML = `
-         
-          <p class="mt-2 text-gray-300">• asia_2ld_dong เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน มีประกันทุกไอดี</span></p>
-          <p class="mt-2 text-gray-300">• อัปเดตไอดีทุกวัน 09.00-15.00</span></p>
+         <div class="flex items-center flex-wrap gap-x-4 gap-y-2 mt-2 bg-black/30 p-3 rounded-xl border border-purple-950/40">
+          <div class="flex items-center gap-1.5">${tag11} <span class="text-sm">สกอ 11 ปี 50-100 ใบ</span></div>
+          <div class="flex items-center gap-1.5">${tag12} <span class="text-sm">สกอ 12 ปี 50-100 ใบ</span></div>
+          </div>
+          <p class="mt-2 text-gray-300">• ไอดีเริ่มต้น เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน มีประกันทุกไอดี <span class="text-cyan-400">(ไม่มีสกินคอลแลบ)</span></span></p>
+        `;
+        } else if (currentTab === "teshar_scroll") {
+          container.innerHTML = `
+          <div class="flex items-center flex-wrap gap-x-4 gap-y-2 mt-2 bg-black/30 p-3 rounded-xl border border-purple-950/40">
+            <div class="flex items-center gap-1.5">${tag11} <span class="text-sm">สกอ 11 ปี</span></div>
+            <div class="flex items-center gap-1.5">${tag12} <span class="text-sm">สกอ 12 ปี</span></div>
+            <div class="flex items-center gap-1.5">${tagLD} <span class="text-sm">สกอแสงมืด</span></div>
+          </div>
+          <p class="mt-2 text-gray-300">• ไอดีฟินิกลมดองสกอ</p>
         `;
         }
       }
@@ -1078,6 +1163,7 @@
         const btnAsiaDong1112 = document.getElementById("btn-asia-dong1112");
         const btnAsia2ld = document.getElementById("btn-asia-2ld");
         const btnAsia2ldDong = document.getElementById("btn-asia-2ld-dong");
+        const btnTesharScroll = document.getElementById("btn-teshar-scroll");
 
         const statBoxUpdate = document.getElementById("stat-box-update");
         const statGridContainer = document.getElementById(
@@ -1094,6 +1180,7 @@
           btnAsiaDong1112,
           btnAsia2ld,
           btnAsia2ldDong,
+          btnTesharScroll,
         ].forEach((btn) => {
           if (btn)
             btn.className =
@@ -1145,6 +1232,7 @@
           if (tab === "asia_dong_notset")
             btnAsiaDongNotSet.className = activeClass;
           if (tab === "asia_dong1112") btnAsiaDong1112.className = activeClass;
+          if (tab === "teshar_scroll") btnTesharScroll.className = activeClass;
 
           if (statBoxUpdate) statBoxUpdate.style.display = "none";
           if (statGridContainer) statGridContainer.className = "block";
@@ -1182,6 +1270,7 @@
         if (currentTab === "asia_dong1112") data = dbAsiaDong1112;
         if (currentTab === "asia_2ld") data = dbAsia2LD;
         if (currentTab === "asia_2ld_dong") data = dbAsia2LDDong;
+        if (currentTab === "teshar_scroll") data = dbTesharScroll;
 
         const searchVal = document
           .getElementById("search-input")
@@ -1206,7 +1295,16 @@
                     ? ["date", "name", "name2", "price", "hive", "days"]
                     : currentTab === "asia_2ld_dong"
                       ? ["date", "name", "name2", "price", "scroll", "days"]
-                      : TARGET_COLUMNS;
+                      : currentTab === "teshar_scroll"
+                        ? [
+                            "name",
+                            "price",
+                            "hive",
+                            "scroll11",
+                            "scroll12",
+                            "scrollLD",
+                          ]
+                        : TARGET_COLUMNS;
               matchSearch = columnsToSearch.some((key) =>
                 String(item[key] || "")
                   .toLowerCase()
@@ -1222,16 +1320,18 @@
               .toLowerCase();
 
             let hasSet =
-              checkHiveStr.includes("ตั้ง") || checkHiveStr.includes("สกอ");
+              checkHiveStr.includes("ตั้ง") ||
+              checkHiveStr.includes("สกอ") ||
+              checkHiveStr.includes("ดอง");
             if (currentTab === "asia_dong1112") {
               hasSet = true;
             }
 
             if (hiveStatusVal === "not-set") {
-              matchHiveStatus = !hasSet;
+              matchHiveStatus = !hasSet || checkHiveStr.includes("ยังไม่ตั้ง");
             }
             if (hiveStatusVal === "set") {
-              matchHiveStatus = hasSet;
+              matchHiveStatus = hasSet && !checkHiveStr.includes("ยังไม่ตั้ง");
             }
           }
 
@@ -1247,6 +1347,7 @@
         if (currentTab === "asia_dong1112") data = dbAsiaDong1112;
         if (currentTab === "asia_2ld") data = dbAsia2LD;
         if (currentTab === "asia_2ld_dong") data = dbAsia2LDDong;
+        if (currentTab === "teshar_scroll") data = dbTesharScroll;
 
         let availableCount = 0;
         data.forEach((item) => {
@@ -1390,11 +1491,21 @@
             "scroll",
             "days",
           ];
+        } else if (currentTab === "teshar_scroll") {
+          columnsToShow = [
+            "pic",
+            "price",
+            "hive",
+            "scroll11",
+            "scroll12",
+            "scrollLD",
+          ];
         }
 
         columnsToShow.forEach((key) => {
           const th = document.createElement("th");
-          th.className = `p-4 text-xs font-bold uppercase tracking-wider font-game text-purple-400 border-b border-purple-950/50 sortable text-nowrap ${key === "hive" || key === "days" || key === "scroll" ? "whitespace-nowrap min-w-max" : ""}`;
+          th.className =
+            "p-4 text-xs font-bold uppercase tracking-wider font-game text-purple-400 border-b border-purple-950/50 sortable whitespace-nowrap min-w-max text-nowrap";
           let icon = '<i class="fa-solid fa-sort ml-1 opacity-40"></i>';
           if (sortKey === key) {
             icon =
@@ -1412,13 +1523,35 @@
           if (key === "name2") displayTitle = "ชื่อ2";
 
           if (key === "price") displayTitle = "ราคา";
-          if (key === "hive") displayTitle = "Hive";
+          if (key === "hive") displayTitle = "hive";
           if (key === "scroll") displayTitle = "Scroll";
-          if (key === "pic") displayTitle = "รูป1";
+          if (key === "pic") displayTitle = "รูป";
           if (key === "pic2") displayTitle = "รูป2";
           if (key === "days") displayTitle = "จำนวนวัน";
 
-          th.innerHTML = `<span>${displayTitle}</span>${icon}`;
+          let headerHTML = `<span>${displayTitle}</span>`;
+
+          // ถ้าเป็นแท็บ ฟินิกลม ดองสกอ ให้แสดงรูปในหัวคอลัมน์
+          if (currentTab === "teshar_scroll") {
+            if (key === "scroll11") {
+              const imgUrl = imgMap["สกอ 11 ปี"] || "";
+              headerHTML = imgUrl
+                ? `<div class="flex items-center gap-1.5"><img src="${imgUrl}" class="w-8 h-8 object-cover rounded-md inline-block"><span>สกอ 11 ปี</span></div>`
+                : `<span>สกอ 11 ปี</span>`;
+            } else if (key === "scroll12") {
+              const imgUrl = imgMap["สกอ 12 ปี"] || "";
+              headerHTML = imgUrl
+                ? `<div class="flex items-center gap-1.5"><img src="${imgUrl}" class="w-8 h-8 object-cover rounded-md inline-block"><span>สกอ 12 ปี</span></div>`
+                : `<span>สกอ 12 ปี</span>`;
+            } else if (key === "scrollLD") {
+              const imgUrl = imgMap["สกอแสงมืด"] || imgMap["แสงมืด"] || "";
+              headerHTML = imgUrl
+                ? `<div class="flex items-center gap-1.5"><img src="${imgUrl}" class="w-8 h-8 object-cover rounded-md inline-block"><span>สกอแสงมืด</span></div>`
+                : `<span>สกอแสงมืด</span>`;
+            }
+          }
+
+          th.innerHTML = `${headerHTML}${icon}`;
           th.onclick = (e) => {
             e.stopPropagation();
             toggleSort(key);
@@ -1445,7 +1578,7 @@
 
           columnsToShow.forEach((key) => {
             const td = document.createElement("td");
-            td.className = `p-4 text-sm ${isSold ? "text-gray-500 line-through" : "text-gray-200"} ${key === "hive" || key === "days" || key === "scroll" ? "whitespace-nowrap min-w-max" : ""}`;
+            td.className = `p-4 text-sm ${isSold ? "text-gray-500 line-through" : "text-gray-200"} whitespace-nowrap min-w-max text-nowrap`;
 
             let rawVal = item[key];
 
@@ -1460,7 +1593,9 @@
             } else if (key === "scroll" && currentTab === "asia_2ld_dong") {
               td.innerHTML = formatScrollDisplay(rawVal, isSold);
             } else if (key === "hive") {
-              if (currentTab === "asia_dong_notset") {
+              if (currentTab === "teshar_scroll") {
+                td.innerHTML = `<span class="${isSold ? "text-gray-500" : "glow-yellow"}">${rawVal}</span>`;
+              } else if (currentTab === "asia_dong_notset") {
                 td.innerHTML = `<span class="${isSold ? "text-gray-500" : "glow-green"}">ยังไม่ตั้ง Hive</span>`;
               } else if (currentTab === "asia_dong1112") {
                 td.innerHTML = `<span class="${isSold ? "text-gray-500" : "glow-yellow"}">ตั้ง HIVE แล้ว</span>`;
@@ -1483,7 +1618,12 @@
             } else if (key === "pic" || key === "pic2") {
               let displayUrl = "";
 
-              if (currentTab === "asia_2ld" || currentTab === "asia_2ld_dong") {
+              if (currentTab === "teshar_scroll") {
+                displayUrl = imgMap["ฟินิกลม"] || "";
+              } else if (
+                currentTab === "asia_2ld" ||
+                currentTab === "asia_2ld_dong"
+              ) {
                 if (key === "pic") {
                   displayUrl = imgMap[item["name"]] || "";
                 } else if (key === "pic2") {
@@ -1525,6 +1665,17 @@
               } else {
                 td.innerHTML = `<span class="text-gray-600">-</span>`;
               }
+            } else if (
+              key === "scroll11" ||
+              key === "scroll12" ||
+              key === "scrollLD"
+            ) {
+              const valText = item[key] || "-";
+              if (valText !== "-") {
+                td.innerHTML = `<span class="font-bold font-game text-amber-400 text-base">${valText}</span>`;
+              } else {
+                td.innerHTML = `<span class="text-gray-600">${valText}</span>`;
+              }
             } else if (key === "days") {
               const displayDays =
                 rawVal !== null &&
@@ -1552,7 +1703,12 @@
         let img1Url = "",
           img2Url = "";
 
-        if (currentTab === "asia_2ld" || currentTab === "asia_2ld_dong") {
+        if (currentTab === "teshar_scroll") {
+          img1Url = imgMap["ฟินิกลม"] || "";
+        } else if (
+          currentTab === "asia_2ld" ||
+          currentTab === "asia_2ld_dong"
+        ) {
           img1Url = imgMap[item["name"]] || "";
           img2Url = imgMap[item["name2"]] || "";
         } else if (currentTab === "asia_dong_notset") {
@@ -1586,7 +1742,9 @@
         let hiveModalHTML = "";
         let hVal = item.hive ? String(item.hive).trim() : "";
 
-        if (currentTab === "asia_2ld_dong") {
+        if (currentTab === "teshar_scroll") {
+          hiveModalHTML = `<span class="${isSold ? "text-gray-500" : "glow-yellow"}">${hVal}</span>`;
+        } else if (currentTab === "asia_2ld_dong") {
           hiveModalHTML = formatScrollDisplay(item.scroll, isSold);
         } else if (currentTab === "asia_dong_notset") {
           hiveModalHTML = `<span class="${isSold ? "text-gray-500" : "glow-green"}">ยังไม่ตั้ง Hive</span>`;
@@ -1616,7 +1774,8 @@
         const hideDateSection =
           currentTab === "asia_200" ||
           currentTab === "asia_dong1112" ||
-          currentTab === "asia_dong_notset";
+          currentTab === "asia_dong_notset" ||
+          currentTab === "teshar_scroll";
 
         let labelName1 = "ไอดี";
         let labelName2 = "";
