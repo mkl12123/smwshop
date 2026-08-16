@@ -1,0 +1,1702 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MKL SMW SHOP</title>
+    <!-- Dynamic Favicon Element -->
+    <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Kanit", "sans-serif"],
+              game: ["Rajdhani", "Kanit", "sans-serif"],
+            },
+            colors: {
+              darkBg: "#09080f",
+              darkCard: "#13111c",
+              neonPurple: "#a855f7",
+              neonPurpleDark: "#701a75",
+              neonCyan: "#06b6d4",
+              neonGreen: "#10b981",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .neon-glow-purple {
+        box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        border: 1px solid rgba(168, 85, 247, 0.5);
+      }
+      .neon-text-purple {
+        text-shadow:
+          0 0 8px rgba(168, 85, 247, 0.8),
+          0 0 20px rgba(168, 85, 247, 0.3);
+      }
+      .glass-panel {
+        background: rgba(19, 17, 28, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #09080f;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #3b0764;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #a855f7;
+      }
+      th.sortable {
+        cursor: pointer;
+        user-select: none;
+      }
+      th.sortable:hover {
+        background-color: rgba(168, 85, 247, 0.1);
+        color: #fff;
+      }
+      tr.clickable-row {
+        cursor: pointer;
+      }
+      .glow-green {
+        color: #10b981;
+        text-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+        font-weight: 600;
+      }
+      .glow-yellow {
+        color: #eab308;
+        text-shadow: 0 0 6px rgba(234, 179, 8, 0.6);
+        font-weight: 600;
+      }
+      .text-sold-red {
+        color: #ef4444;
+        text-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-darkBg text-gray-100 min-h-screen font-sans antialiased overflow-x-hidden relative"
+  >
+    <!-- 🌐 Header -->
+    <header
+      class="border-b border-purple-950/50 bg-black/40 sticky top-0 z-50 backdrop-blur-md"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            id="header-icon-container"
+            class="w-10 h-10 rounded-lg bg-gradient-to-tr from-purple-600 to-cyan-500 flex items-center justify-center neon-glow-purple overflow-hidden"
+          >
+            <i
+              id="header-icon-fallback"
+              class="fa-solid fa-bolt text-xl text-white"
+            ></i>
+          </div>
+          <div>
+            <h1
+              class="text-2xl font-bold font-game tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400"
+            >
+              MKL SMW SHOP
+            </h1>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 flex-wrap justify-center">
+          <button
+            onclick="window.location.reload()"
+            class="flex items-center gap-2 bg-purple-600/10 hover:bg-purple-600/20 text-purple-400 border border-purple-600/30 px-4 py-2 rounded-full text-sm transition-all font-medium cursor-pointer"
+          >
+            <i class="fa-solid fa-rotate-right text-lg"></i>
+            <span>รีเฟรชหน้าเว็บ</span>
+          </button>
+          <a
+            href="https://www.facebook.com/makolov.boktik"
+            target="_blank"
+            class="flex items-center gap-2 bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 border border-blue-600/30 px-4 py-2 rounded-full text-sm transition-all font-medium"
+          >
+            <i class="fa-brands fa-facebook text-lg"></i>
+            <span>FB: makolov.boktik</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- 📊 Statistics & Update Time -->
+    <section class="max-w-7xl mx-auto px-4 mt-6">
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 gap-4"
+        id="stats-grid-container"
+      >
+        <div
+          id="stat-box-available"
+          class="glass-panel p-4 rounded-xl flex items-center gap-4 border-l-4 border-emerald-500 shadow-lg shadow-emerald-950/20"
+        >
+          <div class="p-3 bg-emerald-500/10 rounded-lg text-emerald-400">
+            <i class="fa-solid fa-circle-check text-2xl"></i>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400 uppercase font-game">
+              ว่างพร้อมจำหน่ายในหน้านี้
+            </p>
+            <p
+              class="text-2xl font-bold font-game text-emerald-400"
+              id="stat-available"
+            >
+              0 ไอดี
+            </p>
+          </div>
+        </div>
+        <div
+          id="stat-box-update"
+          class="glass-panel p-4 rounded-xl flex items-center gap-4 border-l-4 border-cyan-500 shadow-lg shadow-cyan-950/20"
+        >
+          <div class="p-3 bg-cyan-500/10 rounded-lg text-cyan-400">
+            <i class="fa-solid fa-clock text-2xl"></i>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400 uppercase font-game">
+              อัปเดตล่าสุดอิงตามชีท
+            </p>
+            <p
+              class="text-lg font-bold font-game text-cyan-400 mt-1"
+              id="stat-update-time"
+            >
+              กำลังโหลดเวลาอัปเดต...
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+      <!-- 🎛️ Tabs -->
+      <div
+        class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8"
+      >
+        <div
+          class="flex flex-col sm:flex-row bg-black/50 p-1.5 rounded-xl border border-purple-950/80 w-full md:w-auto gap-2 flex-wrap"
+        >
+          <button
+            id="btn-asia-1ld"
+            onclick="switchTab('asia_1ld')"
+            class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 bg-gradient-to-r from-purple-700 to-fuchsia-700 text-white shadow-lg shadow-purple-900/50 text-nowrap"
+          >
+            <span>1 แสงมืด</span>
+          </button>
+          <button
+            id="btn-asia-200"
+            onclick="switchTab('asia_200')"
+            class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-400 hover:text-white text-nowrap"
+          >
+            <span>1 แสงมืด บ้าน200+</span>
+          </button>
+          <button
+            id="btn-asia-dong"
+            onclick="switchTab('asia_dong')"
+            class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-400 hover:text-white text-nowrap"
+          >
+            <span>1 แสงมืดดองสกอ</span>
+          </button>
+
+          <button
+            id="btn-asia-dong1112"
+            onclick="switchTab('asia_dong1112')"
+            class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-400 hover:text-white text-nowrap"
+          >
+            <span>1 แสงมืด ดองสกอ11+12ปี</span>
+          </button>
+
+          <button
+            id="btn-asia-dong-notset"
+            onclick="switchTab('asia_dong_notset')"
+            class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-400 hover:text-white text-nowrap"
+          >
+            <span>1 แสงมืด ดองสกอ12ปี ยังไม่ตั้ง</span>
+          </button>
+
+          <!-- 2 แสงมืด -->
+          <button
+            id="btn-asia-2ld"
+            onclick="switchTab('asia_2ld')"
+            class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-400 hover:text-white text-nowrap"
+          >
+            <span>2 แสงมืด</span>
+          </button>
+
+          <!-- 2 แสงมืด ดองสกอ -->
+          <button
+            id="btn-asia-2ld-dong"
+            onclick="switchTab('asia_2ld_dong')"
+            class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-400 hover:text-white text-nowrap"
+          >
+            <span>2 แสงมืด ดองสกอ</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 📝 Special Tab Info Box -->
+      <div
+        id="special-info-box"
+        class="glass-panel p-5 rounded-2xl mb-6 border-l-4 border-purple-500 border-purple-900/40 shadow-xl animate-fadeIn"
+      >
+        <h5
+          class="text-purple-400 font-bold font-game text-base mb-2.5 flex items-center gap-2"
+        >
+          <i class="fa-solid fa-circle-info"></i> รายละเอียดไอดี
+        </h5>
+        <div class="text-sm text-gray-300 space-y-3" id="special-info-content">
+          <!-- เนื้อหาจะถูกเรนเดอร์ผ่าน JS -->
+        </div>
+      </div>
+
+      <!-- 🔍 Filters -->
+      <div class="glass-panel p-6 rounded-2xl mb-8 border border-purple-900/40">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label
+              class="text-xs text-purple-400 uppercase font-game block mb-1"
+              >ค้นหาชื่อ / ค้นหาวันที่ / รายละเอียด</label
+            >
+            <input
+              type="text"
+              id="search-input"
+              onkeyup="applyFilters()"
+              placeholder="พิมพ์ชื่อหรือวันที่ (เช่น ผีมืด หรือ 7/7)"
+              class="w-full bg-black/40 border border-purple-950/80 rounded-xl py-2.5 px-3 text-white focus:outline-none focus:border-purple-500 transition-all"
+            />
+          </div>
+
+          <div>
+            <label
+              class="text-xs text-purple-400 uppercase font-game block mb-1"
+              >Hive Status</label
+            >
+            <select
+              id="hive-status-filter"
+              onchange="applyFilters()"
+              class="w-full bg-black/40 border border-purple-950/80 rounded-xl py-2.5 px-3 text-white focus:outline-none focus:border-purple-500 transition-all"
+            >
+              <option value="all">ทั้งหมด</option>
+              <option value="not-set">ยังไม่ตั้ง Hive</option>
+              <option value="set">ตั้ง Hive แล้ว</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading Indicator -->
+      <div id="loading" class="text-center py-20">
+        <div
+          class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500 mb-4"
+        ></div>
+        <p class="text-xl font-game tracking-wider neon-text-purple">
+          กำลังดึงและจัดเรียงคอลัมน์จากฐานข้อมูล...
+        </p>
+      </div>
+
+      <!-- Table Container -->
+      <div
+        id="table-view-container"
+        class="glass-panel rounded-2xl overflow-hidden border border-purple-900/30 shadow-2xl"
+        style="display: none"
+      >
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-left">
+            <thead>
+              <tr
+                class="bg-black/60 border-b border-purple-900/50"
+                id="table-head"
+              ></tr>
+            </thead>
+            <tbody
+              class="divide-y divide-purple-950/50"
+              id="table-body"
+            ></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="empty-results" class="text-center py-20 hidden">
+        <i class="fa-solid fa-box-open text-5xl text-purple-950 mb-4"></i>
+        <h4 class="text-xl font-bold font-game text-purple-400 mb-2">
+          ไม่พบข้อมูลไอดีตามเงื่อนไข
+        </h4>
+      </div>
+    </main>
+
+    <!-- Modal Detail Popup -->
+    <div
+      id="detail-modal"
+      class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300"
+      onclick="closeModal()"
+    >
+      <div
+        class="glass-panel max-w-lg w-full rounded-2xl p-6 border border-purple-500/30 shadow-2xl transform scale-95 transition-all duration-300 relative"
+        onclick="event.stopPropagation()"
+      >
+        <button
+          onclick="closeModal()"
+          class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+        >
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+        <h3
+          class="text-xl font-bold font-game tracking-wider text-purple-400 border-b border-purple-950 pb-3 mb-4"
+        >
+          <i class="fa-solid fa-circle-info mr-2"></i>รายละเอียดไอดี
+        </h3>
+        <div id="modal-content" class="space-y-4"></div>
+        <div class="mt-6 pt-4 border-t border-purple-950 flex justify-end">
+          <button
+            onclick="closeModal()"
+            class="w-full sm:w-auto px-8 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl font-medium transition-colors"
+          >
+            ปิด
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-black/80 border-t border-purple-950/50 py-8 mt-20">
+      <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500">
+        <p class="mb-2 font-game tracking-wider text-purple-400 text-base">
+          MKL SMW SHOP
+        </p>
+      </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button
+      id="back-to-top"
+      onclick="scrollToTop()"
+      class="fixed bottom-6 right-6 z-50 p-3.5 bg-gradient-to-tr from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white rounded-full shadow-lg opacity-0 pointer-events-none transition-all duration-300 transform translate-y-4 neon-glow-purple flex items-center justify-center border border-purple-400/40 cursor-pointer"
+      title="กลับขึ้นด้านบน"
+    >
+      <i class="fa-solid fa-chevron-up text-lg"></i>
+    </button>
+
+    <script>
+      const sheetId = "1gMG1IT8FJJ_PhXSilyLg2lt1eK40mc6OV6fSSRCdSmQ";
+      const tabAsia1LD = "asia 1LD";
+      const tabAsia200 = "asia 1LD บ้าน200+";
+      const tabAsiaDong = "1LD ดองสกอ 12ปี";
+      const tabAsiaDongNotSet = "1LD ดองสกอ 12ปี ยังไม่ตั้ง";
+      const tabAsiaDong1112 = "1LD ดองสกอ 11+12ปี";
+      const tabAsia2LD = "asia 2LD";
+
+      let imagesLoaded = false;
+      let sheet1Loaded = false;
+      let sheet2Loaded = false;
+      let sheetDongLoaded = false;
+      let sheetDongNotSetLoaded = false;
+      let sheetDong1112Loaded = false;
+      let sheet2LDLoaded = false;
+      let sheet2LDDongLoaded = false;
+
+      const TARGET_COLUMNS = [
+        "date",
+        "name",
+        "price",
+        "pic",
+        "pic2",
+        "hive",
+        "days",
+      ];
+
+      let dbAsia1LD = [];
+      let dbAsia200 = [];
+      let dbAsiaDong = [];
+      let dbAsiaDongNotSet = [];
+      let dbAsiaDong1112 = [];
+      let dbAsia2LD = [];
+      let dbAsia2LDDong = [];
+      let currentTab = "asia_1ld";
+      let sortKey = "";
+      let sortDirection = "asc";
+      let imgMap = {};
+
+      let asia1LDUpdateTime = "";
+      let asia2LDUpdateTime = "";
+      let asia2LDDongUpdateTime = "";
+
+      window.addEventListener("scroll", () => {
+        const btn = document.getElementById("back-to-top");
+        if (window.scrollY > 300) {
+          btn.classList.remove(
+            "opacity-0",
+            "pointer-events-none",
+            "translate-y-4",
+          );
+          btn.classList.add("opacity-100", "translate-y-0");
+        } else {
+          btn.classList.add(
+            "opacity-0",
+            "pointer-events-none",
+            "translate-y-4",
+          );
+          btn.classList.remove("opacity-100", "translate-y-0");
+        }
+      });
+
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        loadImagesData();
+      });
+
+      function loadScript(url) {
+        const script = document.createElement("script");
+        script.src = url;
+        document.body.appendChild(script);
+      }
+
+      function loadImagesData() {
+        const sheetName = "data";
+        const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:receiveImages&sheet=${encodeURIComponent(sheetName)}`;
+        loadScript(url);
+      }
+
+      function receiveImages(response) {
+        if (response && response.table) {
+          const rows = response.table.rows;
+          rows.forEach((row) => {
+            if (row.c && row.c[0] && row.c[1]) {
+              const name = String(row.c[0].v || "").trim();
+              const url = String(row.c[1].v || "").trim();
+              imgMap[name] = url;
+            }
+          });
+        }
+        imagesLoaded = true;
+
+        if (imgMap["icon"]) {
+          document.getElementById("dynamic-favicon").href = imgMap["icon"];
+
+          const iconContainer = document.getElementById(
+            "header-icon-container",
+          );
+          const fallbackIcon = document.getElementById("header-icon-fallback");
+          if (iconContainer) {
+            if (fallbackIcon) fallbackIcon.remove();
+            const imgEl = document.createElement("img");
+            imgEl.src = imgMap["icon"];
+            imgEl.className = "w-full h-full object-cover rounded-lg";
+            iconContainer.appendChild(imgEl);
+          }
+        }
+
+        const urlAsia1LD = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:receiveAsia1LD&sheet=${encodeURIComponent(tabAsia1LD)}`;
+        const urlAsia200 = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:receiveAsia200&sheet=${encodeURIComponent(tabAsia200)}`;
+        const urlAsiaDong = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:receiveAsiaDong&sheet=${encodeURIComponent(tabAsiaDong)}`;
+        const urlAsiaDongNotSet = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:receiveAsiaDongNotSet&sheet=${encodeURIComponent(tabAsiaDongNotSet)}`;
+        const urlAsiaDong1112 = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:receiveAsiaDong1112&sheet=${encodeURIComponent(tabAsiaDong1112)}`;
+        const urlAsia2LD = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:receiveAsia2LD&sheet=${encodeURIComponent(tabAsia2LD)}`;
+        const urlAsia2LDDong = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=responseHandler:receiveAsia2LDDong&gid=1080442891`;
+
+        loadScript(urlAsia1LD);
+        loadScript(urlAsia200);
+        loadScript(urlAsiaDong);
+        loadScript(urlAsiaDongNotSet);
+        loadScript(urlAsiaDong1112);
+        loadScript(urlAsia2LD);
+        loadScript(urlAsia2LDDong);
+      }
+
+      function receiveAsia1LD(response) {
+        dbAsia1LD = processSheetData(response, false, "asia_1ld");
+        sheet1Loaded = true;
+        checkAndRender();
+      }
+
+      function receiveAsia200(response) {
+        dbAsia200 = processSheetData(response, true, "asia_200");
+        sheet2Loaded = true;
+        checkAndRender();
+      }
+
+      function receiveAsiaDong(response) {
+        dbAsiaDong = processSheetData(response, false, "asia_dong");
+        sheetDongLoaded = true;
+        checkAndRender();
+      }
+
+      function receiveAsiaDongNotSet(response) {
+        dbAsiaDongNotSet = processSheetData(
+          response,
+          false,
+          "asia_dong_notset",
+        );
+        sheetDongNotSetLoaded = true;
+        checkAndRender();
+      }
+
+      function receiveAsiaDong1112(response) {
+        dbAsiaDong1112 = processSheetData(response, false, "asia_dong1112");
+        sheetDong1112Loaded = true;
+        checkAndRender();
+      }
+
+      function receiveAsia2LD(response) {
+        dbAsia2LD = processSheetData(response, false, "asia_2ld");
+        sheet2LDLoaded = true;
+        checkAndRender();
+      }
+
+      function receiveAsia2LDDong(response) {
+        dbAsia2LDDong = processSheetData(response, false, "asia_2ld_dong");
+        sheet2LDDongLoaded = true;
+        checkAndRender();
+      }
+
+      function checkAndRender() {
+        if (currentTab === "asia_1ld" && sheet1Loaded) {
+          renderAll();
+        } else if (currentTab === "asia_200" && sheet2Loaded) {
+          renderAll();
+        } else if (currentTab === "asia_dong" && sheetDongLoaded) {
+          renderAll();
+        } else if (currentTab === "asia_dong_notset" && sheetDongNotSetLoaded) {
+          renderAll();
+        } else if (currentTab === "asia_dong1112" && sheetDong1112Loaded) {
+          renderAll();
+        } else if (currentTab === "asia_2ld" && sheet2LDLoaded) {
+          renderAll();
+        } else if (currentTab === "asia_2ld_dong" && sheet2LDDongLoaded) {
+          renderAll();
+        }
+      }
+
+      function parseDateFormats(value) {
+        if (!value) return { outer: "-", full: "-" };
+        let str = String(value).trim();
+        const dateRegex = /Date\((\d+),\s*(\d+),\s*(\d+)\)/;
+        const match = str.match(dateRegex);
+        if (match) {
+          let year = parseInt(match[1]);
+          let month = parseInt(match[2]) + 1;
+          let day = parseInt(match[3]);
+          const dd = String(day).padStart(2, "0");
+          const mm = String(month).padStart(2, "0");
+          return {
+            outer: `${dd}/${mm}`,
+            full: `${dd}/${mm}/${year}`,
+          };
+        }
+
+        const parts = str.split("/");
+        if (parts.length >= 2) {
+          const dd = parts[0].padStart(2, "0");
+          const mm = parts[1].padStart(2, "0");
+          const yyyy = parts[2] || "";
+          return {
+            outer: `${dd}/${mm}`,
+            full: yyyy ? `${dd}/${mm}/${yyyy}` : `${dd}/${mm}`,
+          };
+        }
+
+        return { outer: str, full: str };
+      }
+
+      // ฟังก์ชันสำหรับแปลงสตริงวันที่ให้อยู่ในรูปแบบ Date Object เพื่อนำมาเปรียบเทียบเรียงลำดับ
+      function parseToDateObj(val) {
+        if (!val) return null;
+        let str = String(val).trim();
+
+        const dateRegex = /Date\((\d+),\s*(\d+),\s*(\d+)\)/;
+        const match = str.match(dateRegex);
+        if (match) {
+          return new Date(
+            parseInt(match[1]),
+            parseInt(match[2]),
+            parseInt(match[3]),
+          );
+        }
+
+        const parts = str.split("/");
+        if (parts.length >= 2) {
+          let day = parseInt(parts[0], 10);
+          let month = parseInt(parts[1], 10) - 1;
+          let year = parts[2]
+            ? parseInt(parts[2], 10)
+            : new Date().getFullYear();
+          if (year < 100) year += 2000;
+          if (!isNaN(day) && !isNaN(month)) {
+            return new Date(year, month, day);
+          }
+        }
+
+        let parsed = Date.parse(str);
+        if (!isNaN(parsed)) return new Date(parsed);
+
+        return null;
+      }
+
+      function processSheetData(response, isTab200 = false, tabType = "") {
+        if (!response || !response.table) return [];
+        const rows = response.table.rows;
+
+        if (tabType === "asia_2ld" || tabType === "asia_2ld_dong") {
+          let updateTimeText = "";
+          const maxSearchRows = Math.min(rows.length, 10);
+          for (let i = 0; i < maxSearchRows; i++) {
+            if (rows[i] && rows[i].c) {
+              for (let j = 0; j < rows[i].c.length; j++) {
+                const cell = rows[i].c[j];
+                const val = cell ? String(cell.f || cell.v || "").trim() : "";
+                if (
+                  val.includes("อัปเดต") ||
+                  val.includes("อัปเดต") ||
+                  val.includes("/") ||
+                  val.includes(":")
+                ) {
+                  updateTimeText = val;
+                  break;
+                }
+              }
+            }
+            if (updateTimeText) break;
+          }
+          if (tabType === "asia_2ld") {
+            asia2LDUpdateTime = updateTimeText;
+          } else if (tabType === "asia_2ld_dong") {
+            asia2LDDongUpdateTime = updateTimeText;
+          }
+        }
+
+        let headerRowIndex = -1;
+        let nameIdx = 1,
+          priceIdx = 2,
+          picIdx = 4,
+          dateIdx = 0,
+          hiveIdx = 3,
+          daysIdx = 6;
+
+        for (let i = 0; i < rows.length; i++) {
+          if (rows[i] && rows[i].c) {
+            let cellsStr = rows[i].c.map((cell) =>
+              cell
+                ? String(cell.v || cell.f || "")
+                    .toLowerCase()
+                    .trim()
+                : "",
+            );
+
+            if (
+              cellsStr.includes("name") ||
+              cellsStr.includes("ชื่อ") ||
+              cellsStr.includes("price") ||
+              cellsStr.includes("ราคา")
+            ) {
+              headerRowIndex = i;
+              for (let c = 0; c < rows[i].c.length; c++) {
+                if (!rows[i].c[c]) continue;
+                let headText = String(rows[i].c[c].v || rows[i].c[c].f || "")
+                  .toLowerCase()
+                  .trim();
+
+                if (headText === "name" || headText === "ชื่อ") nameIdx = c;
+                if (headText === "price" || headText === "ราคา") priceIdx = c;
+                if (
+                  headText === "pic" ||
+                  headText === "รูป" ||
+                  headText === "picture"
+                )
+                  picIdx = c;
+                if (headText === "date" || headText === "วันที่") dateIdx = c;
+                if (headText === "hive" || headText === "hive status")
+                  hiveIdx = c;
+                if (headText.includes("วัน") || headText.includes("day"))
+                  daysIdx = c;
+              }
+              break;
+            }
+          }
+        }
+
+        let updateTimeText = "";
+        for (let i = 0; i < headerRowIndex; i++) {
+          if (rows[i] && rows[i].c) {
+            for (let j = 0; j < rows[i].c.length; j++) {
+              const val = rows[i].c[j]
+                ? String(rows[i].c[j].v || rows[i].c[j].f || "").trim()
+                : "";
+              if (
+                val.includes("อัพเดท") ||
+                val.includes("อัปเดต") ||
+                val.includes("/") ||
+                val.includes(":")
+              ) {
+                updateTimeText = val;
+                break;
+              }
+            }
+          }
+        }
+
+        if (tabType === "asia_1ld") {
+          asia1LDUpdateTime = updateTimeText;
+        }
+
+        if (currentTab === "asia_1ld") {
+          document.getElementById("stat-update-time").innerText =
+            asia1LDUpdateTime || "-";
+        } else if (currentTab === "asia_2ld") {
+          document.getElementById("stat-update-time").innerText =
+            asia2LDUpdateTime || "-";
+        } else if (currentTab === "asia_2ld_dong") {
+          document.getElementById("stat-update-time").innerText =
+            asia2LDDongUpdateTime || "-";
+        }
+
+        const items = [];
+        const startRow = headerRowIndex !== -1 ? headerRowIndex + 1 : 0;
+        for (let i = startRow; i < rows.length; i++) {
+          if (!rows[i] || !rows[i].c) continue;
+
+          let isRowEmpty = rows[i].c.every(
+            (cell) => !cell || String(cell.v || "").trim() === "",
+          );
+          if (isRowEmpty) continue;
+
+          let item = { _index: i };
+
+          if (isTab200) {
+            item["name"] = rows[i].c[nameIdx]
+              ? String(
+                  rows[i].c[nameIdx].v || rows[i].c[nameIdx].f || "",
+                ).trim()
+              : "";
+            item["price"] = rows[i].c[priceIdx]
+              ? String(
+                  rows[i].c[priceIdx].v || rows[i].c[priceIdx].f || "",
+                ).trim()
+              : "";
+            item["pic"] = rows[i].c[picIdx]
+              ? String(rows[i].c[picIdx].v || rows[i].c[picIdx].f || "").trim()
+              : "";
+            item["date"] = rows[i].c[dateIdx]
+              ? String(
+                  rows[i].c[dateIdx].v || rows[i].c[dateIdx].f || "",
+                ).trim()
+              : "";
+            item["hive"] = rows[i].c[hiveIdx]
+              ? String(
+                  rows[i].c[hiveIdx].v || rows[i].c[hiveIdx].f || "",
+                ).trim()
+              : "";
+            item["days"] = rows[i].c[daysIdx]
+              ? String(
+                  rows[i].c[daysIdx].v || rows[i].c[daysIdx].f || "",
+                ).trim()
+              : "";
+            item["pic2"] = "";
+            item["name2"] = "";
+          } else if (tabType === "asia_2ld_dong") {
+            item["date"] = rows[i].c[0]
+              ? String(rows[i].c[0].v || rows[i].c[0].f || "").trim()
+              : "";
+            item["name"] = rows[i].c[1]
+              ? String(rows[i].c[1].v || rows[i].c[1].f || "").trim()
+              : "";
+            item["name2"] = rows[i].c[2]
+              ? String(rows[i].c[2].v || rows[i].c[2].f || "").trim()
+              : "";
+            item["price"] = rows[i].c[3]
+              ? String(rows[i].c[3].v || rows[i].c[3].f || "").trim()
+              : "";
+            item["pic"] = rows[i].c[4]
+              ? String(rows[i].c[4].v || rows[i].c[4].f || "").trim()
+              : "";
+            item["pic2"] = rows[i].c[5]
+              ? String(rows[i].c[5].v || rows[i].c[5].f || "").trim()
+              : "";
+            item["scroll"] = rows[i].c[6]
+              ? String(rows[i].c[6].v || rows[i].c[6].f || "").trim()
+              : "";
+            item["days"] = rows[i].c[7]
+              ? String(rows[i].c[7].v || rows[i].c[7].f || "").trim()
+              : "";
+
+            const numbers = item["scroll"].match(/\d+/g);
+            item["scroll_sum"] = numbers
+              ? numbers.reduce((sum, num) => sum + parseInt(num, 10), 0)
+              : 0;
+          } else if (tabType === "asia_2ld") {
+            item["date"] = rows[i].c[0]
+              ? String(rows[i].c[0].v || rows[i].c[0].f || "").trim()
+              : "";
+            item["name"] = rows[i].c[1]
+              ? String(rows[i].c[1].v || rows[i].c[1].f || "").trim()
+              : "";
+            item["name2"] = rows[i].c[2]
+              ? String(rows[i].c[2].v || rows[i].c[2].f || "").trim()
+              : "";
+            item["price"] = rows[i].c[3]
+              ? String(rows[i].c[3].v || rows[i].c[3].f || "").trim()
+              : "";
+            item["pic"] = rows[i].c[4]
+              ? String(rows[i].c[4].v || rows[i].c[4].f || "").trim()
+              : "";
+            item["pic2"] = rows[i].c[5]
+              ? String(rows[i].c[5].v || rows[i].c[5].f || "").trim()
+              : "";
+            item["hive"] = rows[i].c[7]
+              ? String(rows[i].c[7].v || rows[i].c[7].f || "").trim()
+              : "";
+            item["days"] = rows[i].c[8]
+              ? String(rows[i].c[8].v || rows[i].c[8].f || "").trim()
+              : "";
+          } else {
+            item["date"] = rows[i].c[0]
+              ? String(rows[i].c[0].v || rows[i].c[0].f || "").trim()
+              : "";
+            item["name"] = rows[i].c[1]
+              ? String(rows[i].c[1].v || rows[i].c[1].f || "").trim()
+              : "";
+            item["name2"] = rows[i].c[2]
+              ? String(rows[i].c[2].v || rows[i].c[2].f || "").trim()
+              : "";
+            item["price"] = rows[i].c[2]
+              ? String(rows[i].c[2].v || rows[i].c[2].f || "").trim()
+              : "";
+            item["hive"] = rows[i].c[3]
+              ? String(rows[i].c[3].v || rows[i].c[3].f || "").trim()
+              : "";
+            item["pic"] = rows[i].c[4]
+              ? String(rows[i].c[4].v || rows[i].c[4].f || "").trim()
+              : "";
+            item["pic2"] = rows[i].c[5]
+              ? String(rows[i].c[5].v || rows[i].c[5].f || "").trim()
+              : "";
+            item["days"] = rows[i].c[daysIdx]
+              ? String(
+                  rows[i].c[daysIdx].v || rows[i].c[daysIdx].f || "",
+                ).trim()
+              : "";
+          }
+
+          if (item["date"]) {
+            const dateObj = parseDateFormats(item["date"]);
+            item["raw_date"] = item["date"]; // เก็บค่าดิบของวันที่
+            item["full_date"] = dateObj.full;
+            item["date"] = dateObj.outer;
+          } else {
+            item["raw_date"] = "";
+            item["full_date"] = "-";
+          }
+
+          if (item["hive"] && item["hive"].includes("ตั้ง")) {
+            item["hive"] = "ตั้ง HIVE แล้ว";
+          }
+
+          let statusLabel = "";
+          if (rows[i].c[nameIdx + 6] || rows[i].c[7]) {
+            let targetCell = rows[i].c[nameIdx + 6] || rows[i].c[7];
+            statusLabel = String(targetCell.v || targetCell.f || "").trim();
+          }
+          item["status"] = statusLabel;
+
+          let lowerName = item["name"].toLowerCase();
+          if (item["name"] && lowerName !== "name" && lowerName !== "ชื่อ") {
+            items.push(item);
+          }
+        }
+
+        return items;
+      }
+
+      function sortStoreData(dataList) {
+        return dataList.sort((a, b) => {
+          if (sortKey) {
+            let valA = a[sortKey] || "";
+            let valB = b[sortKey] || "";
+
+            if (sortKey === "scroll" && currentTab === "asia_2ld_dong") {
+              return sortDirection === "asc"
+                ? a["scroll_sum"] - b["scroll_sum"]
+                : b["scroll_sum"] - a["scroll_sum"];
+            }
+
+            // การเรียงลำดับตามวันที่จริง (Chronological Date Order)
+            if (sortKey === "date" && currentTab !== "asia_dong_notset") {
+              const dtA = parseToDateObj(
+                a["full_date"] || a["raw_date"] || a["date"],
+              );
+              const dtB = parseToDateObj(
+                b["full_date"] || b["raw_date"] || b["date"],
+              );
+
+              if (dtA && dtB) {
+                return sortDirection === "asc"
+                  ? dtA.getTime() - dtB.getTime()
+                  : dtB.getTime() - dtA.getTime();
+              }
+            }
+
+            if (sortKey === "date" && currentTab === "asia_dong_notset") {
+              valA = a["date"] || "";
+              valB = b["date"] || "";
+            }
+
+            if (
+              sortKey === "hive" &&
+              (currentTab === "asia_dong" || currentTab === "asia_dong_notset")
+            ) {
+              const numA =
+                parseFloat(String(valA).replace(/[^0-9.]/g, "")) || 0;
+              const numB =
+                parseFloat(String(valB).replace(/[^0-9.]/g, "")) || 0;
+              return sortDirection === "asc" ? numA - numB : numB - numA;
+            }
+
+            let numA = parseFloat(String(valA).replace(/[^0-9.]/g, "")) || 0;
+            let numB = parseFloat(String(valB).replace(/[^0-9.]/g, "")) || 0;
+
+            if (sortKey === "price" || sortKey === "days") {
+              return sortDirection === "asc" ? numA - numB : numB - numA;
+            }
+            return sortDirection === "asc"
+              ? String(valA).localeCompare(String(valB))
+              : String(valB).localeCompare(String(valA));
+          }
+          return 0;
+        });
+      }
+
+      function toggleSort(key) {
+        if (sortKey === key) {
+          sortDirection = sortDirection === "asc" ? "desc" : "asc";
+        } else {
+          sortKey = key;
+          sortDirection = "asc";
+        }
+        renderAll();
+      }
+
+      function renderSpecialInfoBox() {
+        const container = document.getElementById("special-info-content");
+        if (!container) return;
+        const img11 = imgMap["สกอ 11 ปี"] || "";
+        const img12 = imgMap["สกอ 12 ปี"] || "";
+        const imgLD = imgMap["สกอแสงมืด"] || imgMap["แสงมืด"] || "";
+        const tag11 = img11
+          ? `<div class="inline-block align-middle bg-darkBg/50 rounded-lg border border-purple-500/20 w-12 h-12 overflow-hidden shadow-md mr-1"><img src="${img11}" class="w-full h-full object-cover"></div>`
+          : "";
+        const tag12 = img12
+          ? `<div class="inline-block align-middle bg-darkBg/50 rounded-lg border border-purple-500/20 w-12 h-12 overflow-hidden shadow-md mr-1"><img src="${img12}" class="w-full h-full object-cover"></div>`
+          : "";
+        const tagLD = imgLD
+          ? `<div class="inline-block align-middle bg-darkBg/50 rounded-lg border border-purple-500/20 w-12 h-12 overflow-hidden shadow-md mr-1"><img src="${imgLD}" class="w-full h-full object-cover"></div>`
+          : "";
+
+        if (currentTab === "asia_dong_notset") {
+          container.innerHTML = `
+            <div class="flex items-center flex-wrap gap-x-4 gap-y-2 mt-2 bg-black/30 p-3 rounded-xl border border-purple-950/40">
+             <div class="flex items-center gap-1.5">${tag12} <span class="text-sm">สกอ 12 ปี 80-110 ใบ</span></div>
+          </div>
+          <p class="mt-2 text-gray-300">• ไอดีแรกเกิด 300 วัน+ (เช็ควันไม่ได้) เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน <span class="text-purple-400">(บางไอดีไม่มีบัพ 7 วัน)</span></p>
+          <p class="text-gray-300">• ยังไม่ตั้ง HIVE <span class="text-cyan-400">(ไม่มีสกินคอลแลบ)</span></p>
+          `;
+        } else if (currentTab === "asia_dong1112") {
+          container.innerHTML = `
+          <div class="flex items-center flex-wrap gap-x-4 gap-y-2 mt-2 bg-black/30 p-3 rounded-xl border border-purple-950/40">
+            <div class="flex items-center gap-1.5">${tag11} <span class="text-sm">สกอ 11 ปี 160 ใบ</span></div>
+            <div class="flex items-center gap-1.5">${tag12} <span class="text-sm">สกอ 12 ปี 100-110 ใบ</span></div>
+            <div class="flex items-center gap-1.5">${tagLD} <span class="text-sm">สกอแสงมืด 1-3 ใบ</span></div>
+          </div>
+          <p class="mt-2 text-gray-300">• ไอดีแรกเกิด 300 วัน+ (เช็ควันไม่ได้) เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน <span class="text-purple-400">(บางไอดีไม่มีบัพ 7 วัน)</span></p>
+          <p class="text-gray-300">• ตั้ง HIVE แล้วไม่มีเลข <span class="text-cyan-400">(ไม่มีสกินคอลแลบ)</span></p>
+        `;
+        } else if (currentTab === "asia_1ld") {
+          container.innerHTML = `
+         
+          <p class="mt-2 text-gray-300">• แสงมืดแรกเกิด เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน มีประกันทุกไอดี</span></p>
+          <p class="mt-2 text-gray-300">• อัปเดตไอดีทุกวัน 09.00-15.00</span></p>
+        `;
+        } else if (currentTab === "asia_200") {
+          container.innerHTML = `
+         
+          <p class="mt-2 text-gray-300">• แสงมืหหหดแรกเกิด เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน มีประกันทุกไอดี</span></p>
+          <p class="mt-2 text-gray-300">• อัปเดตไอดีทุกวัน 09.00-15.00</span></p>
+        `;
+        } else if (currentTab === "asia_dong") {
+          container.innerHTML = `
+         
+          <p class="mt-2 text-gray-300">• asia_dong เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน มีประกันทุกไอดี</span></p>
+          <p class="mt-2 text-gray-300">• อัปเดตไอดีทุกวัน 09.00-15.00</span></p>
+        `;
+        } else if (currentTab === "asia_2ld") {
+          container.innerHTML = `
+         
+          <p class="mt-2 text-gray-300">• asia_2ld เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน มีประกันทุกไอดี</span></p>
+          <p class="mt-2 text-gray-300">• อัปเดตไอดีทุกวัน 09.00-15.00</span></p>
+        `;
+        } else if (currentTab === "asia_2ld_dong") {
+          container.innerHTML = `
+         
+          <p class="mt-2 text-gray-300">• asia_2ld_dong เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน มีประกันทุกไอดี</span></p>
+          <p class="mt-2 text-gray-300">• อัปเดตไอดีทุกวัน 09.00-15.00</span></p>
+        `;
+        }
+      }
+
+      function switchTab(tab) {
+        currentTab = tab;
+        sortKey = "";
+        const btnAsia1ld = document.getElementById("btn-asia-1ld");
+        const btnAsia200 = document.getElementById("btn-asia-200");
+        const btnAsiaDong = document.getElementById("btn-asia-dong");
+        const btnAsiaDongNotSet = document.getElementById(
+          "btn-asia-dong-notset",
+        );
+        const btnAsiaDong1112 = document.getElementById("btn-asia-dong1112");
+        const btnAsia2ld = document.getElementById("btn-asia-2ld");
+        const btnAsia2ldDong = document.getElementById("btn-asia-2ld-dong");
+
+        const statBoxUpdate = document.getElementById("stat-box-update");
+        const statGridContainer = document.getElementById(
+          "stats-grid-container",
+        );
+        const statBoxAvailable = document.getElementById("stat-box-available");
+        const specialInfoBox = document.getElementById("special-info-box");
+
+        [
+          btnAsia1ld,
+          btnAsia200,
+          btnAsiaDong,
+          btnAsiaDongNotSet,
+          btnAsiaDong1112,
+          btnAsia2ld,
+          btnAsia2ldDong,
+        ].forEach((btn) => {
+          if (btn)
+            btn.className =
+              "w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-400 hover:text-white text-nowrap";
+        });
+
+        const activeClass =
+          "w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 bg-gradient-to-r from-purple-700 to-fuchsia-700 text-white shadow-lg shadow-purple-900/50 text-nowrap";
+
+        renderSpecialInfoBox();
+        if (specialInfoBox) specialInfoBox.classList.remove("hidden");
+
+        if (tab === "asia_1ld") {
+          btnAsia1ld.className = activeClass;
+          if (statBoxUpdate) statBoxUpdate.style.display = "flex";
+          document.getElementById("stat-update-time").innerText =
+            asia1LDUpdateTime || "-";
+          if (statGridContainer)
+            statGridContainer.className =
+              "grid grid-cols-1 md:grid-cols-2 gap-4";
+          if (statBoxAvailable)
+            statBoxAvailable.className =
+              "glass-panel p-4 rounded-xl flex items-center gap-4 border-l-4 border-emerald-500 shadow-lg shadow-emerald-950/20";
+        } else if (tab === "asia_2ld") {
+          btnAsia2ld.className = activeClass;
+          if (statBoxUpdate) statBoxUpdate.style.display = "flex";
+          document.getElementById("stat-update-time").innerText =
+            asia2LDUpdateTime || "-";
+          if (statGridContainer)
+            statGridContainer.className =
+              "grid grid-cols-1 md:grid-cols-2 gap-4";
+          if (statBoxAvailable)
+            statBoxAvailable.className =
+              "glass-panel p-4 rounded-xl flex items-center gap-4 border-l-4 border-emerald-500 shadow-lg shadow-emerald-950/20";
+        } else if (tab === "asia_2ld_dong") {
+          if (btnAsia2ldDong) btnAsia2ldDong.className = activeClass;
+          if (statBoxUpdate) statBoxUpdate.style.display = "flex";
+          document.getElementById("stat-update-time").innerText =
+            asia2LDDongUpdateTime || "-";
+          if (statGridContainer)
+            statGridContainer.className =
+              "grid grid-cols-1 md:grid-cols-2 gap-4";
+          if (statBoxAvailable)
+            statBoxAvailable.className =
+              "glass-panel p-4 rounded-xl flex items-center gap-4 border-l-4 border-emerald-500 shadow-lg shadow-emerald-950/20";
+        } else {
+          if (tab === "asia_200") btnAsia200.className = activeClass;
+          if (tab === "asia_dong") btnAsiaDong.className = activeClass;
+          if (tab === "asia_dong_notset")
+            btnAsiaDongNotSet.className = activeClass;
+          if (tab === "asia_dong1112") btnAsiaDong1112.className = activeClass;
+
+          if (statBoxUpdate) statBoxUpdate.style.display = "none";
+          if (statGridContainer) statGridContainer.className = "block";
+          if (statBoxAvailable)
+            statBoxAvailable.className =
+              "glass-panel p-4 rounded-xl flex items-center gap-4 border-l-4 border-emerald-500 shadow-lg shadow-emerald-950/20 w-full";
+        }
+        checkAndRender();
+      }
+
+      function parseSearchDate(str) {
+        const parts = str.split("/");
+        if (parts.length >= 2) {
+          let d = parseInt(parts[0], 10);
+          let m = parseInt(parts[1], 10);
+          if (
+            !isNaN(d) &&
+            !isNaN(m) &&
+            d >= 1 &&
+            d <= 31 &&
+            m >= 1 &&
+            m <= 12
+          ) {
+            return `${String(d).padStart(2, "0")}/${String(m).padStart(2, "0")}`;
+          }
+        }
+        return null;
+      }
+
+      function getFilteredData() {
+        let data = dbAsia1LD;
+        if (currentTab === "asia_200") data = dbAsia200;
+        if (currentTab === "asia_dong") data = dbAsiaDong;
+        if (currentTab === "asia_dong_notset") data = dbAsiaDongNotSet;
+        if (currentTab === "asia_dong1112") data = dbAsiaDong1112;
+        if (currentTab === "asia_2ld") data = dbAsia2LD;
+        if (currentTab === "asia_2ld_dong") data = dbAsia2LDDong;
+
+        const searchVal = document
+          .getElementById("search-input")
+          .value.toLowerCase()
+          .trim();
+        const hiveStatusVal =
+          document.getElementById("hive-status-filter").value;
+        const targetDateStr = parseSearchDate(searchVal);
+
+        return data.filter((item) => {
+          let matchSearch = true;
+          if (searchVal) {
+            if (targetDateStr) {
+              matchSearch = String(item["date"] || "")
+                .toLowerCase()
+                .includes(targetDateStr);
+            } else {
+              const columnsToSearch =
+                currentTab === "asia_200" || currentTab === "asia_dong1112"
+                  ? ["name", "price", "hive"]
+                  : currentTab === "asia_2ld"
+                    ? ["date", "name", "name2", "price", "hive", "days"]
+                    : currentTab === "asia_2ld_dong"
+                      ? ["date", "name", "name2", "price", "scroll", "days"]
+                      : TARGET_COLUMNS;
+              matchSearch = columnsToSearch.some((key) =>
+                String(item[key] || "")
+                  .toLowerCase()
+                  .includes(searchVal),
+              );
+            }
+          }
+
+          let matchHiveStatus = true;
+          if (hiveStatusVal !== "all") {
+            let checkHiveStr = String(item["hive"] || "")
+              .trim()
+              .toLowerCase();
+
+            let hasSet =
+              checkHiveStr.includes("ตั้ง") || checkHiveStr.includes("สกอ");
+            if (currentTab === "asia_dong1112") {
+              hasSet = true;
+            }
+
+            if (hiveStatusVal === "not-set") {
+              matchHiveStatus = !hasSet;
+            }
+            if (hiveStatusVal === "set") {
+              matchHiveStatus = hasSet;
+            }
+          }
+
+          return matchSearch && matchHiveStatus;
+        });
+      }
+
+      function updateStats() {
+        let data = dbAsia1LD;
+        if (currentTab === "asia_200") data = dbAsia200;
+        if (currentTab === "asia_dong") data = dbAsiaDong;
+        if (currentTab === "asia_dong_notset") data = dbAsiaDongNotSet;
+        if (currentTab === "asia_dong1112") data = dbAsiaDong1112;
+        if (currentTab === "asia_2ld") data = dbAsia2LD;
+        if (currentTab === "asia_2ld_dong") data = dbAsia2LDDong;
+
+        let availableCount = 0;
+        data.forEach((item) => {
+          const statusVal = String(item["status"] || "").trim();
+          const priceRaw = String(item["price"] || "").trim();
+          const isSold =
+            statusVal.includes("ขายแล้ว") ||
+            statusVal.toLowerCase().includes("sold") ||
+            statusVal.includes("ออกแล้ว") ||
+            priceRaw.includes("ออก");
+
+          if (!isSold) availableCount++;
+        });
+        document.getElementById("stat-available").innerText =
+          availableCount + " ไอดี";
+      }
+
+      function renderAll() {
+        let filtered = getFilteredData();
+        filtered = sortStoreData(filtered);
+        updateStats();
+        renderSpecialInfoBox();
+        const specialInfoBox = document.getElementById("special-info-box");
+        if (specialInfoBox) specialInfoBox.classList.remove("hidden");
+
+        document.getElementById("loading").style.display = "none";
+        if (filtered.length === 0) {
+          document.getElementById("table-view-container").style.display =
+            "none";
+          document.getElementById("empty-results").classList.remove("hidden");
+          return;
+        } else {
+          document.getElementById("empty-results").classList.add("hidden");
+        }
+        document.getElementById("table-view-container").style.display = "block";
+        renderTableView(filtered);
+      }
+
+      function formatHiveWithScrollIcon(hiveText, isSold) {
+        if (!hiveText) return `<span class="text-gray-600">-</span>`;
+
+        const normalized = hiveText.replace(/\s+/g, "");
+        if (normalized.includes("สกอ12ปี")) {
+          const match = hiveText.match(/สกอ\s*12\s*ปี\s*(.*)/i);
+          const numberPart = match ? match[1].trim() : hiveText;
+
+          const imgUrl = imgMap["สกอ 12 ปี"] || "";
+          if (imgUrl) {
+            return `
+              <div class="flex items-center gap-3">
+                <div class="inline-block align-middle bg-darkBg/50 rounded-lg border border-purple-500/20 w-12 h-12 overflow-hidden shadow-md ${isSold ? "opacity-40" : ""}">
+                  <img src="${imgUrl}" class="w-full h-full object-cover rounded-md">
+                </div>
+                <span class="text-xl font-bold font-game tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-300 ${isSold ? "line-through opacity-40" : ""}">${numberPart}</span>
+              </div>
+            `;
+          }
+        }
+
+        return `<span class="${isSold ? "text-gray-500 line-through" : "glow-yellow"}">${hiveText}</span>`;
+      }
+
+      function formatScrollDisplay(scrollText, isSold) {
+        if (!scrollText) return `<span class="text-gray-600">-</span>`;
+
+        let itemsHtml = [];
+
+        if (scrollText.includes("11ปี")) {
+          const match11 = scrollText.match(/11ปี\s*(\d+)/);
+          const num11 = match11 ? match11[1] : "";
+          const imgUrl11 = imgMap["สกอ 11 ปี"] || "";
+
+          if (imgUrl11) {
+            itemsHtml.push(`
+              <div class="flex items-center gap-3">
+                <div class="inline-block align-middle bg-darkBg/50 rounded-lg border border-purple-500/20 w-12 h-12 overflow-hidden shadow-md ${isSold ? "opacity-40" : ""}">
+                  <img src="${imgUrl11}" class="w-full h-full object-cover rounded-md">
+                </div>
+                <span class="text-xl font-bold font-game tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-300 ${isSold ? "line-through opacity-40" : ""}">${num11} ใบ</span>
+              </div>
+            `);
+          }
+        }
+
+        if (scrollText.includes("12ปี")) {
+          const match12 = scrollText.match(/12ปี\s*(\d+)/);
+          const num12 = match12 ? match12[1] : "";
+          const imgUrl12 = imgMap["สกอ 12 ปี"] || "";
+
+          if (imgUrl12) {
+            itemsHtml.push(`
+              <div class="flex items-center gap-3">
+                <div class="inline-block align-middle bg-darkBg/50 rounded-lg border border-purple-500/20 w-12 h-12 overflow-hidden shadow-md ${isSold ? "opacity-40" : ""}">
+                  <img src="${imgUrl12}" class="w-full h-full object-cover rounded-md">
+                </div>
+                <span class="text-xl font-bold font-game tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-300 ${isSold ? "line-through opacity-40" : ""}">${num12} ใบ</span>
+              </div>
+            `);
+          }
+        }
+
+        if (itemsHtml.length > 0) {
+          return `<div class="flex items-center gap-3">${itemsHtml.join('<span class="text-gray-400 font-bold text-lg">/</span>')}</div>`;
+        }
+
+        return `<span class="${isSold ? "text-gray-500 line-through" : "glow-yellow"}">${scrollText}</span>`;
+      }
+
+      function renderTableView(data) {
+        const headContainer = document.getElementById("table-head");
+        const bodyContainer = document.getElementById("table-body");
+        headContainer.innerHTML = "";
+        bodyContainer.innerHTML = "";
+
+        let columnsToShow = TARGET_COLUMNS;
+        if (currentTab === "asia_200") {
+          columnsToShow = ["name", "price", "pic", "hive"];
+        } else if (currentTab === "asia_dong1112") {
+          columnsToShow = ["name", "price", "pic", "pic2", "hive"];
+        } else if (currentTab === "asia_dong_notset") {
+          columnsToShow = ["date", "name", "price", "pic", "pic2", "hive"];
+        } else if (currentTab === "asia_2ld") {
+          columnsToShow = [
+            "date",
+            "name",
+            "name2",
+            "price",
+            "pic",
+            "pic2",
+            "hive",
+            "days",
+          ];
+        } else if (currentTab === "asia_2ld_dong") {
+          columnsToShow = [
+            "date",
+            "name",
+            "name2",
+            "price",
+            "pic",
+            "pic2",
+            "scroll",
+            "days",
+          ];
+        }
+
+        columnsToShow.forEach((key) => {
+          const th = document.createElement("th");
+          th.className = `p-4 text-xs font-bold uppercase tracking-wider font-game text-purple-400 border-b border-purple-950/50 sortable text-nowrap ${key === "hive" || key === "days" || key === "scroll" ? "whitespace-nowrap min-w-max" : ""}`;
+          let icon = '<i class="fa-solid fa-sort ml-1 opacity-40"></i>';
+          if (sortKey === key) {
+            icon =
+              sortDirection === "asc"
+                ? '<i class="fa-solid fa-arrow-up-short-wide ml-1 text-cyan-400"></i>'
+                : '<i class="fa-solid fa-arrow-down-wide-short ml-1 text-cyan-400"></i>';
+          }
+
+          let displayTitle = key;
+          if (key === "date")
+            displayTitle =
+              currentTab === "asia_dong_notset" ? "ชื่อ" : "วันที่";
+          if (key === "name")
+            displayTitle = currentTab === "asia_dong_notset" ? "ชื่อ2" : "ชื่อ";
+          if (key === "name2") displayTitle = "ชื่อ2";
+
+          if (key === "price") displayTitle = "ราคา";
+          if (key === "hive") displayTitle = "Hive";
+          if (key === "scroll") displayTitle = "Scroll";
+          if (key === "pic") displayTitle = "รูป1";
+          if (key === "pic2") displayTitle = "รูป2";
+          if (key === "days") displayTitle = "จำนวนวัน";
+
+          th.innerHTML = `<span>${displayTitle}</span>${icon}`;
+          th.onclick = (e) => {
+            e.stopPropagation();
+            toggleSort(key);
+          };
+          headContainer.appendChild(th);
+        });
+
+        data.forEach((item) => {
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-purple-950/20 transition-all clickable-row";
+          tr.onclick = () => openModal(item);
+
+          const priceRaw = String(item["price"] || "").trim();
+          const isPriceEmpty = priceRaw === "" || priceRaw === "-";
+          const isPriceSold =
+            priceRaw.includes("out") || priceRaw.includes("ออก");
+
+          const statusVal = String(item["status"] || "");
+          const isSold =
+            statusVal.includes("ขายแล้ว") ||
+            statusVal.toLowerCase().includes("sold") ||
+            statusVal.includes("ออกแล้ว") ||
+            isPriceSold;
+
+          columnsToShow.forEach((key) => {
+            const td = document.createElement("td");
+            td.className = `p-4 text-sm ${isSold ? "text-gray-500 line-through" : "text-gray-200"} ${key === "hive" || key === "days" || key === "scroll" ? "whitespace-nowrap min-w-max" : ""}`;
+
+            let rawVal = item[key];
+
+            if (key === "price") {
+              if (isPriceSold) {
+                td.innerHTML = `<span class="text-sold-red">ออกแล้ว</span>`;
+              } else if (isPriceEmpty) {
+                td.innerHTML = `<span class="glow-yellow">รออัพเดท</span>`;
+              } else {
+                td.innerHTML = `<span class="${isSold ? "text-gray-500" : "text-cyan-400 font-bold font-game"}">${priceRaw}</span>`;
+              }
+            } else if (key === "scroll" && currentTab === "asia_2ld_dong") {
+              td.innerHTML = formatScrollDisplay(rawVal, isSold);
+            } else if (key === "hive") {
+              if (currentTab === "asia_dong_notset") {
+                td.innerHTML = `<span class="${isSold ? "text-gray-500" : "glow-green"}">ยังไม่ตั้ง Hive</span>`;
+              } else if (currentTab === "asia_dong1112") {
+                td.innerHTML = `<span class="${isSold ? "text-gray-500" : "glow-yellow"}">ตั้ง HIVE แล้ว</span>`;
+              } else if (currentTab === "asia_dong") {
+                td.innerHTML = formatHiveWithScrollIcon(rawVal, isSold);
+              } else {
+                const hiveVal = rawVal ? String(rawVal).trim() : "";
+                if (
+                  hiveVal === "" ||
+                  hiveVal.toLowerCase() === "ยังไม่ตั้ง" ||
+                  hiveVal.toLowerCase().includes("ยังไม่ตั้ง hive")
+                ) {
+                  td.innerHTML = `<span class="${isSold ? "text-gray-500" : "glow-green"}">ยังไม่ตั้ง HIVE</span>`;
+                } else if (hiveVal.includes("ตั้ง")) {
+                  td.innerHTML = `<span class="${isSold ? "text-gray-500" : "glow-yellow"}">ตั้ง HIVE แล้ว</span>`;
+                } else {
+                  td.innerText = hiveVal;
+                }
+              }
+            } else if (key === "pic" || key === "pic2") {
+              let displayUrl = "";
+
+              if (currentTab === "asia_2ld" || currentTab === "asia_2ld_dong") {
+                if (key === "pic") {
+                  displayUrl = imgMap[item["name"]] || "";
+                } else if (key === "pic2") {
+                  displayUrl = imgMap[item["name2"]] || "";
+                }
+              } else if (currentTab === "asia_dong_notset") {
+                if (key === "pic") {
+                  const targetName = item["date"] || "";
+                  displayUrl = imgMap[targetName] || "";
+                } else if (key === "pic2") {
+                  const targetName = item["name"] || "";
+                  displayUrl = imgMap[targetName] || "";
+                }
+              } else if (
+                (currentTab === "asia_dong" ||
+                  currentTab === "asia_dong1112") &&
+                key === "pic2"
+              ) {
+                displayUrl = imgMap["ฟินิกลม"] || "";
+              } else {
+                const itemName = item["name"] || "";
+                if (itemName.includes("+")) {
+                  const parts = itemName.split("+");
+                  const targetName =
+                    key === "pic" ? parts[0].trim() : parts[1].trim();
+                  displayUrl = imgMap[targetName] || "";
+                } else if (key === "pic") {
+                  displayUrl = imgMap[itemName] || "";
+                }
+              }
+
+              if (displayUrl) {
+                td.innerHTML = `
+                  <div class="inline-block align-middle bg-darkBg/50 rounded-lg border border-purple-500/20 w-12 h-12 overflow-hidden shadow-md">
+                      <img src="${displayUrl}" class="w-full h-full object-cover block rounded-md hover:scale-125 transition-all duration-300"
+                           onerror="this.onerror=null; this.src='https://placehold.co/48x48/13111c/a855f7?text=NoImg';">
+                  </div>
+                `;
+              } else {
+                td.innerHTML = `<span class="text-gray-600">-</span>`;
+              }
+            } else if (key === "days") {
+              const displayDays =
+                rawVal !== null &&
+                rawVal !== undefined &&
+                String(rawVal).trim() !== ""
+                  ? rawVal
+                  : "-";
+              td.innerHTML = `<span class="font-game font-semibold text-purple-300">${displayDays}</span>`;
+            } else {
+              td.innerText =
+                rawVal !== null && rawVal !== undefined ? rawVal : "";
+            }
+            tr.appendChild(td);
+          });
+
+          bodyContainer.appendChild(tr);
+        });
+      }
+
+      function openModal(item) {
+        const modal = document.getElementById("detail-modal");
+        const content = document.getElementById("modal-content");
+
+        const itemName = item["name"] || "";
+        let img1Url = "",
+          img2Url = "";
+
+        if (currentTab === "asia_2ld" || currentTab === "asia_2ld_dong") {
+          img1Url = imgMap[item["name"]] || "";
+          img2Url = imgMap[item["name2"]] || "";
+        } else if (currentTab === "asia_dong_notset") {
+          img1Url = imgMap[item["date"]] || "";
+          img2Url = imgMap[item["name"]] || "";
+        } else if (
+          currentTab === "asia_dong" ||
+          currentTab === "asia_dong1112"
+        ) {
+          img1Url = imgMap[itemName] || "";
+          img2Url = imgMap["ฟินิกลม"] || "";
+        } else if (itemName.includes("+")) {
+          const parts = itemName.split("+");
+          img1Url = imgMap[parts[0].trim()] || "";
+          img2Url = imgMap[parts[1].trim()] || "";
+        } else {
+          img1Url = imgMap[itemName] || "";
+        }
+
+        const priceRaw = String(item["price"] || "").trim();
+        const isPriceEmpty = priceRaw === "" || priceRaw === "-";
+        const isPriceSold = priceRaw.includes("ออก");
+
+        const statusVal = String(item["status"] || "");
+        const isSold =
+          statusVal.includes("ขายแล้ว") ||
+          statusVal.toLowerCase().includes("sold") ||
+          statusVal.includes("ออกแล้ว") ||
+          isPriceSold;
+
+        let hiveModalHTML = "";
+        let hVal = item.hive ? String(item.hive).trim() : "";
+
+        if (currentTab === "asia_2ld_dong") {
+          hiveModalHTML = formatScrollDisplay(item.scroll, isSold);
+        } else if (currentTab === "asia_dong_notset") {
+          hiveModalHTML = `<span class="${isSold ? "text-gray-500" : "glow-green"}">ยังไม่ตั้ง Hive</span>`;
+        } else if (currentTab === "asia_dong1112") {
+          hiveModalHTML = `<span class="${isSold ? "text-gray-500" : "glow-yellow"}">ตั้ง HIVE แล้ว</span>`;
+        } else if (currentTab === "asia_dong") {
+          hiveModalHTML = formatHiveWithScrollIcon(hVal, isSold);
+        } else {
+          if (hVal === "" || hVal.toLowerCase().includes("ยังไม่ตั้ง")) {
+            hiveModalHTML = `<span class="${isSold ? "text-gray-500" : "glow-green"}">ยังไม่ตั้ง HIVE</span>`;
+          } else if (hVal.includes("ตั้ง")) {
+            hiveModalHTML = `<span class="${isSold ? "text-gray-500" : "glow-yellow"}">ตั้ง HIVE แล้ว</span>`;
+          } else {
+            hiveModalHTML = `<span class="text-gray-200">${hVal || "-"}</span>`;
+          }
+        }
+
+        let priceModalHTML = "";
+        if (isPriceSold) {
+          priceModalHTML = `<span class="text-sold-red text-base">ออกแล้ว</span>`;
+        } else if (isPriceEmpty) {
+          priceModalHTML = `<span class="glow-yellow text-base">รออัพเดท</span>`;
+        } else {
+          priceModalHTML = `<span class="font-bold text-cyan-400 text-lg font-game">${priceRaw}</span>`;
+        }
+
+        const hideDateSection =
+          currentTab === "asia_200" ||
+          currentTab === "asia_dong1112" ||
+          currentTab === "asia_dong_notset";
+
+        let labelName1 = "ไอดี";
+        let labelName2 = "";
+        let valName1 = item.name || "-";
+        let valName2 = "";
+
+        if (currentTab === "asia_2ld" || currentTab === "asia_2ld_dong") {
+          labelName1 = "ชื่อ 1";
+          valName1 = item.name || "-";
+          labelName2 = "ชื่อ 2";
+          valName2 = item.name2 || "-";
+        } else if (currentTab === "asia_dong_notset") {
+          labelName1 = "ชื่อ";
+          valName1 = item.date || "-";
+          labelName2 = "ชื่อ2";
+          valName2 = item.name || "-";
+        }
+
+        let htmlContent = `
+          <div class="flex gap-4 justify-center bg-black/40 p-3 rounded-xl border border-purple-950">
+            ${img1Url ? `<div class="text-center w-24 h-24 rounded-xl border border-purple-500/30 overflow-hidden"><img src="${img1Url}" class="w-full h-full object-cover bg-darkBg rounded-xl"></div>` : ""}
+            ${img2Url ? `<div class="text-center w-24 h-24 rounded-xl border border-purple-500/30 overflow-hidden"><img src="${img2Url}" class="w-full h-full object-cover bg-darkBg rounded-xl"></div>` : ""}
+          </div>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40 col-span-2 sm:col-span-1">
+              <span class="text-xs text-gray-400 block">${labelName1}</span>
+              <span class="font-bold text-white text-base ${isSold ? "line-through text-gray-500" : ""}">${valName1}</span>
+            </div>
+            ${
+              labelName2
+                ? `
+            <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40 col-span-2 sm:col-span-1">
+              <span class="text-xs text-gray-400 block">${labelName2}</span>
+              <span class="font-bold text-white text-base ${isSold ? "line-through text-gray-500" : ""}">${valName2}</span>
+            </div>
+                `
+                : ""
+            }
+            <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40 col-span-2 sm:col-span-1">
+              <span class="text-xs text-gray-400 block">ราคา</span>
+              ${priceModalHTML}
+            </div>
+            ${
+              !hideDateSection
+                ? `
+            <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40">
+              <span class="text-xs text-gray-400 block">วันที่สร้างไอดี</span>
+              <span class="text-gray-200 ${isSold ? "line-through text-gray-500" : ""}">${item.full_date || "-"}</span>
+            </div>
+            <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40">
+              <span class="text-xs text-gray-400 block">จำนวนวัน</span>
+              <span class="font-bold font-game ${isSold ? "line-through text-gray-500" : "text-purple-300"}">${item.days || "-"}</span>
+            </div>
+            `
+                : ""
+            }
+            <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40 col-span-2">
+              <span class="text-xs text-gray-400 block">${currentTab === "asia_2ld_dong" ? "Scroll" : "Hive ID Status"}</span>
+              <div class="mt-1">${hiveModalHTML}</div>
+            </div>
+          </div>
+        `;
+
+        content.innerHTML = htmlContent;
+        modal.disabled = false;
+        modal.classList.remove("opacity-0", "pointer-events-none");
+        modal.children[0].classList.remove("scale-95");
+        modal.children[0].classList.add("scale-100");
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("detail-modal");
+        modal.classList.add("opacity-0", "pointer-events-none");
+        modal.children[0].classList.remove("scale-100");
+        modal.children[0].classList.add("scale-95");
+      }
+
+      function applyFilters() {
+        renderAll();
+      }
+    </script>
+  </body>
+</html>
