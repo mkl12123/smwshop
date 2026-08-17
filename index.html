@@ -95,6 +95,33 @@
         text-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
         font-weight: bold;
       }
+      /* สไตล์สำหรับแถบแนะนำการเลื่อนตาราง (Scroll Hint) พร้อมแอนิเมชันลูกศร */
+      .scroll-hint {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        font-size: 0.85rem;
+        color: #c084fc;
+        padding: 8px 16px;
+        background: rgba(0, 0, 0, 0.3);
+        border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+        font-weight: 500;
+        transition: opacity 0.3s ease;
+      }
+      .scroll-hint .arrow-icon {
+        display: inline-block;
+        margin-left: 6px;
+        animation: bounceRight 1s infinite ease-in-out;
+      }
+      @keyframes bounceRight {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        50% {
+          transform: translateX(6px);
+        }
+      }
     </style>
   </head>
   <body
@@ -281,6 +308,12 @@
         >
           <i class="fa-solid fa-circle-info"></i> รายละเอียดไอดี
         </h5>
+
+        <h5
+          class="text-cyan-400 font-bold font-game text-base mb-2.5 flex items-center gap-2"
+        >
+          (กดชื่อมอนเตอร์เพื่อดูรายละเอียดไอดี)
+        </h5>
         <div class="text-sm text-gray-300 space-y-3" id="special-info-content">
           <!-- เนื้อหาจะถูกเรนเดอร์ผ่าน JS -->
         </div>
@@ -337,6 +370,12 @@
         class="glass-panel rounded-2xl overflow-hidden border border-purple-900/30 shadow-2xl"
         style="display: none"
       >
+        <!-- แถบแนะนำการเลื่อนตารางไปทางขวาบนมือถือ -->
+
+        <div class="scroll-hint">
+          <span>เลื่อนขวาเพื่อดูข้อมูลเพิ่มเติม</span>
+          <span class="arrow-icon">👉</span>
+        </div>
         <div class="overflow-x-auto">
           <table class="w-full border-collapse text-left">
             <thead>
@@ -364,26 +403,31 @@
     <!-- Modal Detail Popup -->
     <div
       id="detail-modal"
-      class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300"
+      class="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300"
       onclick="closeModal()"
     >
       <div
-        class="glass-panel max-w-lg w-full rounded-2xl p-6 border border-purple-500/30 shadow-2xl transform scale-95 transition-all duration-300 relative"
+        class="glass-panel max-w-lg w-full max-h-[85vh] sm:max-h-[90vh] rounded-2xl p-4 sm:p-6 border border-purple-500/30 shadow-2xl transform scale-95 transition-all duration-300 relative flex flex-col"
         onclick="event.stopPropagation()"
       >
         <button
           onclick="closeModal()"
-          class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+          class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors z-10"
         >
           <i class="fa-solid fa-xmark text-xl"></i>
         </button>
         <h3
-          class="text-xl font-bold font-game tracking-wider text-purple-400 border-b border-purple-950 pb-3 mb-4"
+          class="text-lg sm:text-xl font-bold font-game tracking-wider text-purple-400 border-b border-purple-950 pb-3 mb-3 sm:mb-4 shrink-0"
         >
           <i class="fa-solid fa-circle-info mr-2"></i>รายละเอียดไอดี
         </h3>
-        <div id="modal-content" class="space-y-4"></div>
-        <div class="mt-6 pt-4 border-t border-purple-950 flex justify-end">
+        <div
+          id="modal-content"
+          class="space-y-3 sm:space-y-4 overflow-y-auto pr-1"
+        ></div>
+        <div
+          class="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-purple-950 flex justify-end shrink-0"
+        >
           <button
             onclick="closeModal()"
             class="w-full sm:w-auto px-8 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl font-medium transition-colors"
@@ -449,51 +493,76 @@
       let dbAsia2LD = [];
       let dbAsia2LDDong = [];
 
-      // ข้อมูลแท็บ ฟินิกลม ดองสกอ 5 รายการตามระบุ
+      // ข้อมูลแท็บ ฟินิกลม ดองสกอ
       let dbTesharScroll = [
         {
           name: "ฟินิกลม",
           price: "20",
-          hive: "ฟินิกลมไม่ดอง",
+          hive: "ตั้ง HIVE แล้ว",
           scroll11: "-",
           scroll12: "-",
+          scrollLegendAll: "-",
           scrollLD: "-",
+          scrollLegend12: "-",
+          scrollDark12: "-",
+          scrollOrange: "-",
+          scrollLegend: "-",
           status: "",
         },
         {
           name: "ฟินิกลม",
           price: "70",
-          hive: "ดอง 11 ปี 160 ใบ",
+          hive: "ตั้ง HIVE แล้ว",
           scroll11: "160",
           scroll12: "-",
-          scrollLD: "-",
-          status: "",
+          scrollLegendAll: "3",
+          scrollLD: "4",
+          scrollLegend12: "-",
+          scrollDark12: "-",
+          scrollOrange: "100",
+          scrollLegend: "5",
+          status: "88888",
         },
         {
           name: "ฟินิกลม",
           price: "140",
-          hive: "ดอง 12 ปี 200 ใบ",
+          hive: "ตั้ง HIVE แล้ว",
           scroll11: "-",
           scroll12: "200",
+          scrollLegendAll: "-",
           scrollLD: "-",
+          scrollLegend12: "1-2",
+          scrollDark12: "1",
+          scrollOrange: "150-250",
+          scrollLegend: "3-6",
           status: "",
         },
         {
           name: "ฟินิกลม",
           price: "170",
-          hive: "ดองสกอ 260 ใบ (11ปี160ใบ+12ปี100ใบ)",
+          hive: "ตั้ง HIVE แล้ว",
           scroll11: "160",
-          scroll12: "100",
-          scrollLD: "-",
+          scroll12: "100-110",
+          scrollLegendAll: "3",
+          scrollLD: "4",
+          scrollLegend12: "-",
+          scrollDark12: "-",
+          scrollOrange: "100",
+          scrollLegend: "5",
           status: "",
         },
         {
           name: "ฟินิกลม",
           price: "200",
-          hive: "ดอง 12 ปี 280-300 ใบ ยังไม่ตั้ง",
+          hive: "ยังไม่ตั้ง Hive",
           scroll11: "-",
           scroll12: "280-300",
+          scrollLegendAll: "-",
           scrollLD: "-",
+          scrollLegend12: "3",
+          scrollDark12: "-",
+          scrollOrange: "200-280",
+          scrollLegend: "8",
           status: "",
         },
       ];
@@ -1142,11 +1211,10 @@
         } else if (currentTab === "teshar_scroll") {
           container.innerHTML = `
           <div class="flex items-center flex-wrap gap-x-4 gap-y-2 mt-2 bg-black/30 p-3 rounded-xl border border-purple-950/40">
-            <div class="flex items-center gap-1.5">${tag11} <span class="text-sm">สกอ 11 ปี</span></div>
-            <div class="flex items-center gap-1.5">${tag12} <span class="text-sm">สกอ 12 ปี</span></div>
-            <div class="flex items-center gap-1.5">${tagLD} <span class="text-sm">สกอแสงมืด</span></div>
+            <div class="flex items-center gap-1.5">${tag11} <span class="text-sm">สกอ 11 ปี </span></div>
+            <div class="flex items-center gap-1.5">${tag12} <span class="text-sm">สกอ 12 ปี </span></div> 
           </div>
-          <p class="mt-2 text-gray-300">• ไอดีฟินิกลมดองสกอ</p>
+          <p class="mt-2 text-gray-300">• ไอดีฟินิกลมดองสกอ ไอดีเริ่มต้น เควสผู้เล่นใหม่ครบ ไม่ปั้นมอน มีบัพ 7 วัน</p>
         `;
         }
       }
@@ -1243,6 +1311,16 @@
         checkAndRender();
       }
 
+      function applyFilters() {
+        renderAll();
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("detail-modal");
+        modal.classList.add("opacity-0", "pointer-events-none");
+        modal.firstElementChild.classList.add("scale-95");
+      }
+
       function parseSearchDate(str) {
         const parts = str.split("/");
         if (parts.length >= 2) {
@@ -1302,7 +1380,12 @@
                             "hive",
                             "scroll11",
                             "scroll12",
+                            "scrollLegendAll",
                             "scrollLD",
+                            "scrollLegend12",
+                            "scrollDark12",
+                            "scrollOrange",
+                            "scrollLegend",
                           ]
                         : TARGET_COLUMNS;
               matchSearch = columnsToSearch.some((key) =>
@@ -1384,6 +1467,26 @@
         }
         document.getElementById("table-view-container").style.display = "block";
         renderTableView(filtered);
+
+        // ตรวจจับการเลื่อนตารางเพื่อซ่อน/แสดงแถบแนะนำการเลื่อน
+        const tableScrollContainer = document.querySelector(
+          "#table-view-container .overflow-x-auto",
+        );
+        const scrollHint = document.querySelector(".scroll-hint");
+        if (
+          tableScrollContainer &&
+          scrollHint &&
+          !tableScrollContainer.dataset.listenerAttached
+        ) {
+          tableScrollContainer.dataset.listenerAttached = "true";
+          tableScrollContainer.addEventListener("scroll", () => {
+            if (tableScrollContainer.scrollLeft > 20) {
+              scrollHint.style.opacity = "0";
+            } else {
+              scrollHint.style.opacity = "1";
+            }
+          });
+        }
       }
 
       function formatHiveWithScrollIcon(hiveText, isSold) {
@@ -1462,6 +1565,8 @@
         headContainer.innerHTML = "";
         bodyContainer.innerHTML = "";
 
+        const isTeshar = currentTab === "teshar_scroll";
+
         let columnsToShow = TARGET_COLUMNS;
         if (currentTab === "asia_200") {
           columnsToShow = ["name", "price", "pic", "hive"];
@@ -1492,20 +1597,28 @@
             "days",
           ];
         } else if (currentTab === "teshar_scroll") {
+          // เรียงตามที่กำหนดสำหรับแท็บ teshar_scroll
           columnsToShow = [
             "pic",
             "price",
             "hive",
             "scroll11",
             "scroll12",
+            "scrollLegendAll",
             "scrollLD",
+            "scrollLegend12",
+            "scrollDark12",
+            "scrollOrange",
+            "scrollLegend",
           ];
         }
 
         columnsToShow.forEach((key) => {
           const th = document.createElement("th");
-          th.className =
-            "p-4 text-xs font-bold uppercase tracking-wider font-game text-purple-400 border-b border-purple-950/50 sortable whitespace-nowrap min-w-max text-nowrap";
+          const thPaddingClass = isTeshar
+            ? "p-4 min-w-[100px]"
+            : "px-2 py-3 w-auto";
+          th.className = `${thPaddingClass} text-xs font-bold uppercase tracking-wider font-game text-purple-400 border-b border-purple-950/50 sortable whitespace-nowrap text-center`;
           let icon = '<i class="fa-solid fa-sort ml-1 opacity-40"></i>';
           if (sortKey === key) {
             icon =
@@ -1531,27 +1644,52 @@
 
           let headerHTML = `<span>${displayTitle}</span>`;
 
-          // ถ้าเป็นแท็บ ฟินิกลม ดองสกอ ให้แสดงรูปในหัวคอลัมน์
+          // ถ้าเป็นแท็บ ฟินิกลม ดองสกอ ให้แสดงชื่อคอลัมน์และรูปภาพเต็มขนาด
           if (currentTab === "teshar_scroll") {
             if (key === "scroll11") {
               const imgUrl = imgMap["สกอ 11 ปี"] || "";
               headerHTML = imgUrl
-                ? `<div class="flex items-center gap-1.5"><img src="${imgUrl}" class="w-8 h-8 object-cover rounded-md inline-block"><span>สกอ 11 ปี</span></div>`
+                ? `<div class="flex items-center justify-center"><img src="${imgUrl}" class="w-12 h-12 object-contain rounded-md block"></div>`
                 : `<span>สกอ 11 ปี</span>`;
             } else if (key === "scroll12") {
               const imgUrl = imgMap["สกอ 12 ปี"] || "";
               headerHTML = imgUrl
-                ? `<div class="flex items-center gap-1.5"><img src="${imgUrl}" class="w-8 h-8 object-cover rounded-md inline-block"><span>สกอ 12 ปี</span></div>`
+                ? `<div class="flex items-center justify-center"><img src="${imgUrl}" class="w-12 h-12 object-contain rounded-md block"></div>`
                 : `<span>สกอ 12 ปี</span>`;
+            } else if (key === "scrollLegendAll") {
+              const imgUrl = imgMap["สกอเลเจ้นรวมธาตุ"] || "";
+              headerHTML = imgUrl
+                ? `<div class="flex items-center justify-center"><img src="${imgUrl}" class="w-12 h-12 object-contain rounded-md block"></div>`
+                : `<span>สกอเลเจ้นรวมธาตุ</span>`;
             } else if (key === "scrollLD") {
               const imgUrl = imgMap["สกอแสงมืด"] || imgMap["แสงมืด"] || "";
               headerHTML = imgUrl
-                ? `<div class="flex items-center gap-1.5"><img src="${imgUrl}" class="w-8 h-8 object-cover rounded-md inline-block"><span>สกอแสงมืด</span></div>`
+                ? `<div class="flex items-center justify-center"><img src="${imgUrl}" class="w-12 h-12 object-contain rounded-md block"></div>`
                 : `<span>สกอแสงมืด</span>`;
+            } else if (key === "scrollLegend12") {
+              const imgUrl = imgMap["สกอเลเจ้น 12 ปี"] || "";
+              headerHTML = imgUrl
+                ? `<div class="flex items-center justify-center"><img src="${imgUrl}" class="w-12 h-12 object-contain rounded-md block"></div>`
+                : `<span>สกอเลเจ้น 12 ปี</span>`;
+            } else if (key === "scrollDark12") {
+              const imgUrl = imgMap["สกอมืด 12 ปี"] || "";
+              headerHTML = imgUrl
+                ? `<div class="flex items-center justify-center"><img src="${imgUrl}" class="w-12 h-12 object-contain rounded-md block"></div>`
+                : `<span>สกอมืด 12 ปี</span>`;
+            } else if (key === "scrollOrange") {
+              const imgUrl = imgMap["สกอส้ม"] || "";
+              headerHTML = imgUrl
+                ? `<div class="flex items-center justify-center"><img src="${imgUrl}" class="w-12 h-12 object-contain rounded-md block"></div>`
+                : `<span>สกอส้ม</span>`;
+            } else if (key === "scrollLegend") {
+              const imgUrl = imgMap["สกอเลเจ้น"] || "";
+              headerHTML = imgUrl
+                ? `<div class="flex items-center justify-center"><img src="${imgUrl}" class="w-12 h-12 object-contain rounded-md block"></div>`
+                : `<span>สกอเลเจ้น</span>`;
             }
           }
 
-          th.innerHTML = `${headerHTML}${icon}`;
+          th.innerHTML = `<div class="flex items-center justify-center gap-1">${headerHTML}${icon}</div>`;
           th.onclick = (e) => {
             e.stopPropagation();
             toggleSort(key);
@@ -1578,7 +1716,10 @@
 
           columnsToShow.forEach((key) => {
             const td = document.createElement("td");
-            td.className = `p-4 text-sm ${isSold ? "text-gray-500 line-through" : "text-gray-200"} whitespace-nowrap min-w-max text-nowrap`;
+            const tdPaddingClass = isTeshar
+              ? "p-4 min-w-[72px]"
+              : "px-2 py-3 w-auto";
+            td.className = `${tdPaddingClass} text-sm ${isSold ? "text-gray-500 line-through" : "text-gray-200"} whitespace-nowrap text-center`;
 
             let rawVal = item[key];
 
@@ -1594,7 +1735,14 @@
               td.innerHTML = formatScrollDisplay(rawVal, isSold);
             } else if (key === "hive") {
               if (currentTab === "teshar_scroll") {
-                td.innerHTML = `<span class="${isSold ? "text-gray-500" : "glow-yellow"}">${rawVal}</span>`;
+                const hiveVal = rawVal ? String(rawVal).trim() : "";
+                if (hiveVal.includes("ยังไม่ตั้ง")) {
+                  td.innerHTML = `<span class="${isSold ? "text-gray-500" : "glow-green"}">ยังไม่ตั้ง HIVE</span>`;
+                } else if (hiveVal.includes("ตั้ง")) {
+                  td.innerHTML = `<span class="${isSold ? "text-gray-500" : "glow-yellow"}">ตั้ง HIVE แล้ว</span>`;
+                } else {
+                  td.innerHTML = `<span class="${isSold ? "text-gray-500" : "glow-yellow"}">${hiveVal}</span>`;
+                }
               } else if (currentTab === "asia_dong_notset") {
                 td.innerHTML = `<span class="${isSold ? "text-gray-500" : "glow-green"}">ยังไม่ตั้ง Hive</span>`;
               } else if (currentTab === "asia_dong1112") {
@@ -1656,8 +1804,10 @@
               }
 
               if (displayUrl) {
+                const sizeClass =
+                  currentTab === "teshar_scroll" ? "w-14 h-14" : "w-12 h-12";
                 td.innerHTML = `
-                  <div class="inline-block align-middle bg-darkBg/50 rounded-lg border border-purple-500/20 w-12 h-12 overflow-hidden shadow-md">
+                  <div class="inline-block align-middle bg-darkBg/50 rounded-lg border border-purple-500/20 ${sizeClass} overflow-hidden shadow-md">
                       <img src="${displayUrl}" class="w-full h-full object-cover block rounded-md hover:scale-125 transition-all duration-300"
                            onerror="this.onerror=null; this.src='https://placehold.co/48x48/13111c/a855f7?text=NoImg';">
                   </div>
@@ -1668,7 +1818,12 @@
             } else if (
               key === "scroll11" ||
               key === "scroll12" ||
-              key === "scrollLD"
+              key === "scrollLegendAll" ||
+              key === "scrollLD" ||
+              key === "scrollLegend12" ||
+              key === "scrollDark12" ||
+              key === "scrollOrange" ||
+              key === "scrollLegend"
             ) {
               const valText = item[key] || "-";
               if (valText !== "-") {
@@ -1685,8 +1840,20 @@
                   : "-";
               td.innerHTML = `<span class="font-game font-semibold text-purple-300">${displayDays}</span>`;
             } else {
-              td.innerText =
-                rawVal !== null && rawVal !== undefined ? rawVal : "";
+              if (
+                key === "name" &&
+                currentTab === "asia_1ld" &&
+                rawVal &&
+                String(rawVal).includes("+")
+              ) {
+                const parts = String(rawVal)
+                  .split("+")
+                  .map((p) => p.trim());
+                td.innerHTML = parts.join("<br>");
+              } else {
+                td.innerText =
+                  rawVal !== null && rawVal !== undefined ? rawVal : "";
+              }
             }
             tr.appendChild(td);
           });
@@ -1743,7 +1910,13 @@
         let hVal = item.hive ? String(item.hive).trim() : "";
 
         if (currentTab === "teshar_scroll") {
-          hiveModalHTML = `<span class="${isSold ? "text-gray-500" : "glow-yellow"}">${hVal}</span>`;
+          if (hVal.includes("ยังไม่ตั้ง")) {
+            hiveModalHTML = `<span class="${isSold ? "text-gray-500" : "glow-green"}">ยังไม่ตั้ง HIVE</span>`;
+          } else if (hVal.includes("ตั้ง")) {
+            hiveModalHTML = `<span class="${isSold ? "text-gray-500" : "glow-yellow"}">ตั้ง HIVE แล้ว</span>`;
+          } else {
+            hiveModalHTML = `<span class="${isSold ? "text-gray-500" : "glow-yellow"}">${hVal || "-"}</span>`;
+          }
         } else if (currentTab === "asia_2ld_dong") {
           hiveModalHTML = formatScrollDisplay(item.scroll, isSold);
         } else if (currentTab === "asia_dong_notset") {
@@ -1771,90 +1944,142 @@
           priceModalHTML = `<span class="font-bold text-cyan-400 text-lg font-game">${priceRaw}</span>`;
         }
 
-        const hideDateSection =
-          currentTab === "asia_200" ||
-          currentTab === "asia_dong1112" ||
-          currentTab === "asia_dong_notset" ||
-          currentTab === "teshar_scroll";
+        let htmlContent = "";
 
-        let labelName1 = "ไอดี";
-        let labelName2 = "";
-        let valName1 = item.name || "-";
-        let valName2 = "";
+        if (currentTab === "teshar_scroll") {
+          let scrollItems = [];
+          const scrollList = [
+            { key: "scroll11", label: "สกอ 11 ปี", img: imgMap["สกอ 11 ปี"] },
+            { key: "scroll12", label: "สกอ 12 ปี", img: imgMap["สกอ 12 ปี"] },
+            {
+              key: "scrollLegendAll",
+              label: "สกอเลเจ้นรวมธาตุ",
+              img: imgMap["สกอเลเจ้นรวมธาตุ"],
+            },
+            {
+              key: "scrollLD",
+              label: "สกอแสงมืด",
+              img: imgMap["สกอแสงมืด"] || imgMap["แสงมืด"],
+            },
+            {
+              key: "scrollLegend12",
+              label: "สกอเลเจ้น 12 ปี",
+              img: imgMap["สกอเลเจ้น 12 ปี"],
+            },
+            {
+              key: "scrollDark12",
+              label: "สกอมืด 12 ปี",
+              img: imgMap["สกอมืด 12 ปี"],
+            },
+            { key: "scrollOrange", label: "สกอส้ม", img: imgMap["สกอส้ม"] },
+            {
+              key: "scrollLegend",
+              label: "สกอเลเจ้น",
+              img: imgMap["สกอเลเจ้น"],
+            },
+          ];
 
-        if (currentTab === "asia_2ld" || currentTab === "asia_2ld_dong") {
-          labelName1 = "ชื่อ 1";
-          valName1 = item.name || "-";
-          labelName2 = "ชื่อ 2";
-          valName2 = item.name2 || "-";
-        } else if (currentTab === "asia_dong_notset") {
-          labelName1 = "ชื่อ";
-          valName1 = item.date || "-";
-          labelName2 = "ชื่อ2";
-          valName2 = item.name || "-";
+          scrollList.forEach((s) => {
+            let val = item[s.key];
+            if (val && val !== "-") {
+              let icon = s.img
+                ? `<img src="${s.img}" class="w-6 h-6 sm:w-7 sm:h-7 object-cover rounded inline-block mr-1.5">`
+                : "";
+              scrollItems.push(
+                `<div class="flex items-center bg-purple-950/50 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl border border-purple-700/50 text-xs sm:text-sm font-bold text-amber-300 shadow-md">${icon}<span>${s.label}: ${val}</span></div>`,
+              );
+            }
+          });
+
+          let scrollDetailsHTML =
+            scrollItems.length > 0
+              ? `<div class="flex flex-wrap gap-2 mt-1.5">${scrollItems.join("")}</div>`
+              : `<span class="text-gray-400">${item.hive || "-"}</span>`;
+
+          htmlContent = `
+            <div class="bg-black/40 p-2.5 sm:p-3 rounded-xl border border-purple-950 flex items-center justify-between mb-2 sm:mb-3">
+              <span class="text-xs text-gray-400 font-game uppercase">Hive ID Status</span>
+              <div>${hiveModalHTML}</div>
+            </div>
+            <div class="flex gap-4 justify-center bg-black/40 p-2.5 sm:p-3 rounded-xl border border-purple-950 mb-2 sm:mb-3">
+              ${img1Url ? `<div class="text-center w-16 h-16 sm:w-20 sm:h-20 rounded-xl border border-purple-500/30 overflow-hidden"><img src="${img1Url}" class="w-full h-full object-cover bg-darkBg rounded-xl"></div>` : ""}
+            </div>
+            <div class="grid grid-cols-2 gap-2.5 sm:gap-3 text-sm">
+              <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40 col-span-2 sm:col-span-1">
+                <span class="text-xs text-gray-400 block">ราคา</span>
+                ${priceModalHTML}
+              </div>
+              <div class="bg-black/30 p-2.5 sm:p-3 rounded-lg border border-purple-950/40 col-span-2">
+                <span class="text-xs sm:text-sm text-purple-300 block font-semibold mb-1">รายละเอียดสกอที่มี <span class="text-cyan-400 text-xs font-normal">(สกอจริงอาจต่างเล็กน้อย)</span></span>
+                <div>${scrollDetailsHTML}</div>
+              </div>
+            </div>
+          `;
+        } else {
+          const hideDateSection =
+            currentTab === "asia_200" ||
+            currentTab === "asia_dong1112" ||
+            currentTab === "asia_dong_notset";
+
+          let labelName1 = "ไอดี";
+          let labelName2 = "";
+          let valName1 = item.name || "-";
+          let valName2 = "";
+
+          if (currentTab === "asia_2ld" || currentTab === "asia_2ld_dong") {
+            labelName1 = "ชื่อ 1";
+            valName1 = item.name || "-";
+            labelName2 = "ชื่อ 2";
+            valName2 = item.name2 || "-";
+          } else if (currentTab === "asia_dong_notset") {
+            labelName1 = "ชื่อ";
+            valName1 = item.date || "-";
+            labelName2 = "ชื่อ2";
+            valName2 = item.name || "-";
+          }
+
+          htmlContent = `
+            <div class="flex gap-4 justify-center bg-black/40 p-2.5 sm:p-3 rounded-xl border border-purple-950">
+              ${img1Url ? `<div class="text-center w-16 h-16 sm:w-20 sm:h-20 rounded-xl border border-purple-500/30 overflow-hidden"><img src="${img1Url}" class="w-full h-full object-cover bg-darkBg rounded-xl"></div>` : ""}
+              ${img2Url ? `<div class="text-center w-16 h-16 sm:w-20 sm:h-20 rounded-xl border border-purple-500/30 overflow-hidden"><img src="${img2Url}" class="w-full h-full object-cover bg-darkBg rounded-xl"></div>` : ""}
+            </div>
+            <div class="grid grid-cols-2 gap-2.5 sm:gap-3 text-sm">
+              <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40 col-span-2 sm:col-span-1">
+                <span class="text-xs text-gray-400 block">${labelName1}</span>
+                <span class="font-bold text-white text-base ${isSold ? "line-through text-gray-500" : ""}">${valName1}</span>
+              </div>
+              ${
+                labelName2
+                  ? `<div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40 col-span-2 sm:col-span-1">
+                <span class="text-xs text-gray-400 block">${labelName2}</span>
+                <span class="font-bold text-white text-base ${isSold ? "line-through text-gray-500" : ""}">${valName2}</span>
+              </div>`
+                  : ""
+              }
+              <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40 col-span-2 sm:col-span-1">
+                <span class="text-xs text-gray-400 block">ราคา</span>
+                ${priceModalHTML}
+              </div>
+              ${
+                !hideDateSection
+                  ? `<div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40">
+                <span class="text-xs text-gray-400 block">วันที่สร้างไอดี</span>
+                <span class="text-gray-200">${item.full_date || item.date || "-"}</span>
+              </div>`
+                  : ""
+              }
+              <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40 col-span-2">
+                <span class="text-xs text-gray-400 block">Hive Status / Scroll</span>
+                <div>${hiveModalHTML}</div>
+              </div>
+            </div>
+          `;
         }
 
-        let htmlContent = `
-          <div class="flex gap-4 justify-center bg-black/40 p-3 rounded-xl border border-purple-950">
-            ${img1Url ? `<div class="text-center w-24 h-24 rounded-xl border border-purple-500/30 overflow-hidden"><img src="${img1Url}" class="w-full h-full object-cover bg-darkBg rounded-xl"></div>` : ""}
-            ${img2Url ? `<div class="text-center w-24 h-24 rounded-xl border border-purple-500/30 overflow-hidden"><img src="${img2Url}" class="w-full h-full object-cover bg-darkBg rounded-xl"></div>` : ""}
-          </div>
-          <div class="grid grid-cols-2 gap-3 text-sm">
-            <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40 col-span-2 sm:col-span-1">
-              <span class="text-xs text-gray-400 block">${labelName1}</span>
-              <span class="font-bold text-white text-base ${isSold ? "line-through text-gray-500" : ""}">${valName1}</span>
-            </div>
-            ${
-              labelName2
-                ? `
-            <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40 col-span-2 sm:col-span-1">
-              <span class="text-xs text-gray-400 block">${labelName2}</span>
-              <span class="font-bold text-white text-base ${isSold ? "line-through text-gray-500" : ""}">${valName2}</span>
-            </div>
-                `
-                : ""
-            }
-            <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40 col-span-2 sm:col-span-1">
-              <span class="text-xs text-gray-400 block">ราคา</span>
-              ${priceModalHTML}
-            </div>
-            ${
-              !hideDateSection
-                ? `
-            <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40">
-              <span class="text-xs text-gray-400 block">วันที่สร้างไอดี</span>
-              <span class="text-gray-200 ${isSold ? "line-through text-gray-500" : ""}">${item.full_date || "-"}</span>
-            </div>
-            <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40">
-              <span class="text-xs text-gray-400 block">จำนวนวัน</span>
-              <span class="font-bold font-game ${isSold ? "line-through text-gray-500" : "text-purple-300"}">${item.days || "-"}</span>
-            </div>
-            `
-                : ""
-            }
-            <div class="bg-black/30 p-2.5 rounded-lg border border-purple-950/40 col-span-2">
-              <span class="text-xs text-gray-400 block">${currentTab === "asia_2ld_dong" ? "Scroll" : "Hive ID Status"}</span>
-              <div class="mt-1">${hiveModalHTML}</div>
-            </div>
-          </div>
-        `;
-
         content.innerHTML = htmlContent;
-        modal.disabled = false;
+
         modal.classList.remove("opacity-0", "pointer-events-none");
-        modal.children[0].classList.remove("scale-95");
-        modal.children[0].classList.add("scale-100");
-      }
-
-      function closeModal() {
-        const modal = document.getElementById("detail-modal");
-        modal.classList.add("opacity-0", "pointer-events-none");
-        modal.children[0].classList.remove("scale-100");
-        modal.children[0].classList.add("scale-95");
-      }
-
-      function applyFilters() {
-        renderAll();
+        modal.firstElementChild.classList.remove("scale-95");
       }
     </script>
   </body>
