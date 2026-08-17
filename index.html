@@ -41,34 +41,6 @@
       };
     </script>
     <style>
-      .zoom-control {
-        position: fixed;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 1000;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      .zoom-btn {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: rgba(168, 85, 247, 0.8);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        border: 2px solid white;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        transition: transform 0.2s;
-      }
-      .zoom-btn:hover {
-        transform: scale(1.1);
-      }
-
       .neon-glow-purple {
         box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
         border: 1px solid rgba(168, 85, 247, 0.5);
@@ -155,20 +127,6 @@
   <body
     class="bg-darkBg text-gray-100 min-h-screen font-sans antialiased overflow-x-hidden relative"
   >
-    <div class="zoom-control">
-      <button class="zoom-btn" onclick="changeZoom(0.1)" title="ซูมเข้า">
-        <i class="fa-solid fa-magnifying-glass-plus"></i>
-      </button>
-      <button class="zoom-btn" onclick="changeZoom(-0.1)" title="ซูมออก">
-        <i class="fa-solid fa-magnifying-glass-minus"></i>
-      </button>
-      <div
-        id="zoom-level"
-        class="text-xs text-center font-bold text-white bg-black/20 p-1 rounded"
-      >
-        100%
-      </div>
-    </div>
     <!-- 🌐 Header -->
     <header
       class="border-b border-purple-950/50 bg-black/40 sticky top-0 z-50 backdrop-blur-md"
@@ -322,7 +280,7 @@
             onclick="switchTab('asia_2ld_dong')"
             class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-gray-400 hover:text-white text-nowrap"
           >
-            <span>2 แสงมืด ดองสกอ ยังไม่ตั้ง</span>
+            <span>2 แสงมืด ดองสกอ</span>
           </button>
 
           <!-- ฟินิกลม ดองสกอ -->
@@ -499,14 +457,6 @@
     </button>
 
     <script>
-      let currentZoom = 1;
-      function changeZoom(delta) {
-        // จำกัดช่วงซูม 20% - 200% (0.2 - 2.0)
-        currentZoom = Math.min(Math.max(currentZoom + delta, 0.2), 2.0);
-        document.body.style.zoom = currentZoom;
-        document.getElementById("zoom-level").innerText =
-          Math.round(currentZoom * 100) + "%";
-      }
       const sheetId = "1gMG1IT8FJJ_PhXSilyLg2lt1eK40mc6OV6fSSRCdSmQ";
       const tabAsia1LD = "asia 1LD";
       const tabAsia200 = "asia 1LD บ้าน200+";
